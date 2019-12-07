@@ -538,14 +538,14 @@ class FnDeclNode extends DeclNode {
         myBody = body;
     }
 
-    public int formalsSize(){
-        int totalSize = 0;
-        for(FormalDeclNode formal : myFormalsList) {
-            int size = formal.myType.offset();
-            totalSize = totalSize + size;
-        }
-        return totalSize;
-    }
+    // public int formalsSize(){
+    //     int totalSize = 0;
+    //     for(FormalDeclNode formal : myFormalsList) {
+    //         int size = formal.myType.offset();
+    //         totalSize = totalSize + size;
+    //     }
+    //     return totalSize;
+    // }
 
     /**
      * nameAnalysis
@@ -595,6 +595,7 @@ class FnDeclNode extends DeclNode {
         List<Type> typeList = myFormalsList.nameAnalysis(symTab);
         if (sym != null) {
             sym.addFormals(typeList);
+            sym.addParams(typeList); // add params sizes
         }
         
         myBody.nameAnalysis(symTab,name); // process the function body

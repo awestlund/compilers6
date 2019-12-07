@@ -39,6 +39,7 @@ class FnSym extends Sym {
     private int numParams;
     private List<Type> paramTypes;
     private int localsSize = 0;
+    private int paramsSize = 0;
     
     public FnSym(Type type, int numparams) {
         super(new FnType());
@@ -53,6 +54,25 @@ class FnSym extends Sym {
     public void addLocal(VarDeclNode v){
         int size = v.getOffset();
         localsSize += size;
+    }
+
+    public void addParams(List<Type> types){
+        for(Type type : types){
+            int size = 0;
+            if(type.isIntType()){
+                size = 4;
+            }
+            else if(type.isBoolType()){
+                size = 1;
+            }
+            else if(type.isVoidType()){
+                size = 4;
+            }
+            else if(type.isStringType()){
+                size = 4;
+            }
+            paramsSize += size;
+        }
     }
     
     public Type getReturnType() {
@@ -69,6 +89,10 @@ class FnSym extends Sym {
 
     public int getLocalsSize() {
         return localsSize;
+    }
+
+    public int getParamsSize() {
+        return paramsSize;
     }
 
     public String toString() {
