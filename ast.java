@@ -486,7 +486,7 @@ class VarDeclNode extends DeclNode {
                     sym = new StructSym(structId);
                 }
                 else {
-                    sym = new Sym(myType.type());
+                    sym = new Sym(myType.type(),myType.offset());
                 }
                 symTab.addDecl(name, sym);
                 myId.link(sym);
@@ -712,7 +712,7 @@ class FormalDeclNode extends DeclNode {
         
         if (!badDecl) {  // insert into symbol table
             try {
-                sym = new Sym(myType.type());
+                sym = new Sym(myType.type(),myType.offset());
                 symTab.addDecl(name, sym);
                 myId.link(sym);
             } catch (DuplicateSymException ex) {
