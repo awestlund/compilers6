@@ -534,6 +534,15 @@ class FnDeclNode extends DeclNode {
         myBody = body;
     }
 
+    public int formalsSize(){
+        int totalSize = 0;
+        for(FormalDeclNode formal : myFormalsList) {
+            int size = formal.myType.offset();
+            totalSize = totalSize + size;
+        }
+        return totalSize;
+    }
+
     /**
      * nameAnalysis
      * Given a symbol table symTab, do:
