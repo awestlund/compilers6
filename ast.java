@@ -517,7 +517,7 @@ class FnDeclNode extends DeclNode {
     }
 
     public int formalsSize(){
-        totalSize = 0;
+        int totalSize = 0;
         for(int i = 0; i < myFormalsList.length(); i++) {
             FormalDeclNode formal = myFormalsList.get(i);
             int size = formal.myType.offset();
