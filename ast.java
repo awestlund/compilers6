@@ -107,6 +107,9 @@ import java.util.*;
 // ASTnode class (base class for all other kinds of nodes)$
 // **********************************************************************
 
+//change to true if a main function is declared
+private boolean mainBool = false;
+
 abstract class ASTnode { 
     // every subclass must provide an unparse operation
     abstract public void unparse(PrintWriter p, int indent);
@@ -122,8 +125,6 @@ abstract class ASTnode {
 // StmtListNode, ExpListNode$$
 // **********************************************************************
 
-//change to true if a main function is declared
-private boolean mainBool = false;
 
 class ProgramNode extends ASTnode {
     public ProgramNode(DeclListNode L) {
@@ -138,6 +139,10 @@ class ProgramNode extends ASTnode {
     public void nameAnalysis() {
         SymTable symTab = new SymTable();
         myDeclList.nameAnalysis(symTab);
+        if(mainBool != true){
+            ErrMsg.fatal(0, 0,
+                "No main function");
+        }
     }
     
     /**
