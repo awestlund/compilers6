@@ -107,9 +107,6 @@ import java.util.*;
 // ASTnode class (base class for all other kinds of nodes)$
 // **********************************************************************
 
-//change to true if a main function is declared
-private boolean mainBool = false;
-
 abstract class ASTnode { 
     // every subclass must provide an unparse operation
     abstract public void unparse(PrintWriter p, int indent);
@@ -130,6 +127,9 @@ class ProgramNode extends ASTnode {
     public ProgramNode(DeclListNode L) {
         myDeclList = L;
     }
+
+    //change to true if a main function is declared
+    public boolean mainBool = false;
 
     /**
      * nameAnalysis
