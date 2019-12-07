@@ -515,8 +515,8 @@ class VarDeclNode extends DeclNode {
         p.println(";");
     }
 
-    public int getOffset(){
-        return myType.offset();
+    public Type getType(){
+        return myType.type();
     }
 
     // 3 kids

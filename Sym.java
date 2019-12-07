@@ -52,8 +52,19 @@ class FnSym extends Sym {
     }
 
     public void addLocal(VarDeclNode v){
-        int size = v.getOffset();
-        localsSize += size;
+        Type type =  v.getType();
+        if(type.isIntType()){
+            localsSize += 4;
+        }
+        else if(type.isBoolType()){
+            localsSize += 1;
+        }
+        else if(type.isVoidType()){
+            localsSize += 4;
+        }
+        else if(type.isStringType()){
+            localsSize += 4;
+        }
     }
 
     public void addParams(List<Type> types){
