@@ -212,7 +212,9 @@ public class P6 {
 	}
 
 	public static void main(String[] args) {
+		Codegen.p = new PrintWriter(args[1]);
 		P6 instance = new P6(args);
 		instance.run();
+		Codegen.p.close();
 	}
 }

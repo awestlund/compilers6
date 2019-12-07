@@ -122,6 +122,9 @@ abstract class ASTnode {
 // StmtListNode, ExpListNode$$
 // **********************************************************************
 
+//change to true if a main function is declared
+private boolean mainBool = false;
+
 class ProgramNode extends ASTnode {
     public ProgramNode(DeclListNode L) {
         myDeclList = L;
@@ -523,6 +526,10 @@ class FnDeclNode extends DeclNode {
     public Sym nameAnalysis(SymTable symTab) {
         String name = myId.name();
         FnSym sym = null;
+
+        if(name == "main"){
+            mainBool = true;
+        }
         
         if (symTab.lookupLocal(name) != null) {
             ErrMsg.fatal(myId.lineNum(), myId.charNum(),
