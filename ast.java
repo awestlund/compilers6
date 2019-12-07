@@ -603,7 +603,7 @@ class FnDeclNode extends DeclNode {
         String name = myId.name();
         FnSym sym = null;
 
-        if(name == "main"){
+        if(name.equals("main")){
             ProgramNode.mainBool = true;
         }
         
