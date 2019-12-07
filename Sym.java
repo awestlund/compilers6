@@ -7,6 +7,10 @@ import java.util.*;
 public class Sym {
     private Type type;
     private int offset;
+
+    public Sym(Type type) {
+        this.type = type;
+    }
     
     public Sym(Type type, int offset) {
         this.type = type;
