@@ -129,7 +129,7 @@ class ProgramNode extends ASTnode {
     }
 
     //change to true if a main function is declared
-    public boolean mainBool = false;
+    public static boolean mainBool = false;
 
     /**
      * nameAnalysis
