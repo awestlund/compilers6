@@ -38,7 +38,7 @@ class FnSym extends Sym {
     private Type returnType;
     private int numParams;
     private List<Type> paramTypes;
-    private List<Integer> localSizes;
+    private int localsSize = 0;
     
     public FnSym(Type type, int numparams) {
         super(new FnType());
@@ -51,7 +51,8 @@ class FnSym extends Sym {
     }
 
     public void addLocal(VarDeclNode v){
-        localSizes.add(v); // to be changed...
+        int size = v.getOffset();
+        localsSize += size;
     }
     
     public Type getReturnType() {
@@ -66,8 +67,8 @@ class FnSym extends Sym {
         return paramTypes;
     }
 
-    public List<Integer> getLocalSizes() {
-        return localSizes;
+    public int getLocalsSize() {
+        return localsSize;
     }
 
     public String toString() {
