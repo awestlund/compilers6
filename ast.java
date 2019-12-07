@@ -138,7 +138,7 @@ class ProgramNode extends ASTnode {
      */
     public void nameAnalysis() {
         SymTable symTab = new SymTable();
-        myDeclList.nameAnalysis(symTab, mainBool);
+        myDeclList.nameAnalysis(symTab);
         if(mainBool != true){
             ErrMsg.fatal(0, 0,
                 "No main function");
