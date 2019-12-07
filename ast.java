@@ -138,7 +138,7 @@ class ProgramNode extends ASTnode {
      */
     public void nameAnalysis() {
         SymTable symTab = new SymTable();
-        myDeclList.nameAnalysis(symTab, mainBool);
+        myDeclList.nameAnalysis(symTab);
         if(mainBool != true){
             ErrMsg.fatal(0, 0,
                 "No main function");
@@ -172,6 +172,10 @@ class DeclListNode extends ASTnode {
     public void nameAnalysis(SymTable symTab) {
         nameAnalysis(symTab, symTab);
     }
+
+    public void nameAnalysis(SymTable symTab, String name){
+        nameAnalysis(symTab, symTab, name);
+    }
     
     /**
      * nameAnalysis
@@ -188,7 +192,21 @@ class DeclListNode extends ASTnode {
                 node.nameAnalysis(symTab);
             }
         }
-    }     
+    }    
+    
+    // nameAnalysis for FnBody
+    public void nameAnalysis(SymTable symTab, SymTable globalTab, String name) {
+        FnSym curFn = (FnSym)globalTab.lookupGlobal(name);
+        for (DeclNode node : myDecls) {
+            if (node instanceof VarDeclNode) {
+                ((VarDeclNode)node).nameAnalysis(symTab, globalTab);
+                curFn.addLocal(((VarDeclNode)node));
+            }
+            else {
+                node.nameAnalysis(symTab);
+            }
+        }
+    }   
     
     /**
      * typeCheck
@@ -272,8 +290,8 @@ class FnBodyNode extends ASTnode {
      * - process the declaration list
      * - process the statement list
      */
-    public void nameAnalysis(SymTable symTab) {
-        myDeclList.nameAnalysis(symTab);
+    public void nameAnalysis(SymTable symTab, String name) {
+        myDeclList.nameAnalysis(symTab, name);
         myStmtList.nameAnalysis(symTab);
     }    
  
@@ -566,7 +584,7 @@ class FnDeclNode extends DeclNode {
             sym.addFormals(typeList);
         }
         
-        myBody.nameAnalysis(symTab); // process the function body
+        myBody.nameAnalysis(symTab,name); // process the function body
         
         try {
             symTab.removeScope();  // exit scope

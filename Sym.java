@@ -50,8 +50,8 @@ class FnSym extends Sym {
         paramTypes = L;
     }
 
-    public void addLocals(List<Integer> L){
-        localSizes = L;
+    public void addLocal(VarDeclNode v){
+        localSizes.add(v); // to be changed...
     }
     
     public Type getReturnType() {
