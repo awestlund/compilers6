@@ -172,11 +172,6 @@ class DeclListNode extends ASTnode {
     public void nameAnalysis(SymTable symTab) {
         nameAnalysis(symTab, symTab);
     }
-
-    // nameAnalysis with mainBool
-    public void nameAnalysis(SymTable symTab, boolean mainBool) {
-        nameAnalysis(symTab, symTab, mainBool);
-    }
     
     /**
      * nameAnalysis
@@ -193,21 +188,7 @@ class DeclListNode extends ASTnode {
                 node.nameAnalysis(symTab);
             }
         }
-    }    
-
-    // nameAnalysis with mainBool
-    public void nameAnalysis(SymTable symTab, SymTable globalTab, boolean mainBool) {
-        for (DeclNode node : myDecls) {
-            if (node instanceof VarDeclNode) {
-                ((VarDeclNode)node).nameAnalysis(symTab, globalTab);
-            } else if (node instanceof FnDeclNode) {
-                ((FnDeclNode)node).nameAnalysis(symTab, mainBool);
-            }
-            else {
-                node.nameAnalysis(symTab);
-            }
-        }
-    }   
+    }     
     
     /**
      * typeCheck
@@ -597,61 +578,6 @@ class FnDeclNode extends DeclNode {
         
         return null;
     }
-
-    // nameAnalysis with mainBool
-    public Sym nameAnalysis(SymTable symTab, boolean mainBool) {
-        String name = myId.name();
-        FnSym sym = null;
-
-        if(name.equals("main")){
-            ProgramNode.mainBool = true;
-        }
-        
-        if (symTab.lookupLocal(name) != null) {
-            ErrMsg.fatal(myId.lineNum(), myId.charNum(),
-                         "Multiply declared identifier");
-        }
-        
-        else { // add function name to local symbol table
-            try {
-                sym = new FnSym(myType.type(), myFormalsList.length());
-                symTab.addDecl(name, sym);
-                myId.link(sym);
-            } catch (DuplicateSymException ex) {
-                System.err.println("Unexpected DuplicateSymException " +
-                                   " in FnDeclNode.nameAnalysis");
-                System.exit(-1);
-            } catch (EmptySymTableException ex) {
-                System.err.println("Unexpected EmptySymTableException " +
-                                   " in FnDeclNode.nameAnalysis");
-                System.exit(-1);
-            } catch (WrongArgumentException ex) {
-                System.err.println("Unexpected WrongArgumentException " +
-                                   " in FnDeclNode.nameAnalysis");
-                System.exit(-1);
-            } 
-        }
-        
-        symTab.addScope();  // add a new scope for locals and params
-        
-        // process the formals
-        List<Type> typeList = myFormalsList.nameAnalysis(symTab);
-        if (sym != null) {
-            sym.addFormals(typeList);
-        }
-        
-        myBody.nameAnalysis(symTab); // process the function body
-        
-        try {
-            symTab.removeScope();  // exit scope
-        } catch (EmptySymTableException ex) {
-            System.err.println("Unexpected EmptySymTableException " +
-                               " in FnDeclNode.nameAnalysis");
-            System.exit(-1);
-        }
-        
-        return null;
-    } 
        
     /**
      * typeCheck
