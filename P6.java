@@ -212,9 +212,13 @@ public class P6 {
 	}
 
 	public static void main(String[] args) {
+		try{
 		Codegen.p = new PrintWriter(args[1]);
 		P6 instance = new P6(args);
 		instance.run();
 		Codegen.p.close();
+		}catch(FileNotFoundException e){
+			System.out.println("FileNotFoundException thrown");
+		}
 	}
 }
