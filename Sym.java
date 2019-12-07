@@ -38,7 +38,7 @@ class FnSym extends Sym {
     private Type returnType;
     private int numParams;
     private List<Type> paramTypes;
-    private List<Type> localTypes;
+    private List<Integer> localSizes;
     
     public FnSym(Type type, int numparams) {
         super(new FnType());
@@ -50,8 +50,8 @@ class FnSym extends Sym {
         paramTypes = L;
     }
 
-    public void addLocals(List<Type> L){
-        localTypes = L;
+    public void addLocals(List<Integer> L){
+        localSizes = L;
     }
     
     public Type getReturnType() {
@@ -66,8 +66,8 @@ class FnSym extends Sym {
         return paramTypes;
     }
 
-    public List<Type> getLocalTypes() {
-        return localTypes;
+    public List<Integer> getLocalSizes() {
+        return localSizes;
     }
 
     public String toString() {
