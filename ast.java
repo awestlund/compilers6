@@ -1069,6 +1069,7 @@ class ReadStmtNode extends StmtNode {
 }
 
 class WriteStmtNode extends StmtNode {
+    private Type stmtType;
     public WriteStmtNode(ExpNode exp) {
         myExp = exp;
     }
@@ -1106,6 +1107,7 @@ class WriteStmtNode extends StmtNode {
             ErrMsg.fatal(myExp.lineNum(), myExp.charNum(),
                          "Attempt to write void");
         }
+        stmtType = type;
     }
         
     public void unparse(PrintWriter p, int indent) {
