@@ -563,6 +563,10 @@ class FnDeclNode extends DeclNode {
     public Sym nameAnalysis(SymTable symTab) {
         String name = myId.name();
         FnSym sym = null;
+
+        if(name.equals("main")){
+            ProgramNode.mainBool = true;
+        }
         
         if (symTab.lookupLocal(name) != null) {
             ErrMsg.fatal(myId.lineNum(), myId.charNum(),
