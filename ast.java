@@ -821,6 +821,7 @@ class StructDeclNode extends DeclNode {
 abstract class TypeNode extends ASTnode {
     /* all subclasses must provide a type method */
     abstract public Type type();
+    abstract public int offset();
 }
 
 class IntNode extends TypeNode {
@@ -832,6 +833,10 @@ class IntNode extends TypeNode {
      */
     public Type type() {
         return new IntType();
+    }
+
+    public int offset(){
+        return 4;
     }
     
     public void unparse(PrintWriter p, int indent) {
@@ -849,6 +854,10 @@ class BoolNode extends TypeNode {
     public Type type() {
         return new BoolType();
     }
+
+    public int offset(){
+        return 1;
+    }
     
     public void unparse(PrintWriter p, int indent) {
         p.print("bool");
@@ -865,6 +874,10 @@ class VoidNode extends TypeNode {
     public Type type() {
         return new VoidType();
     }
+
+    public int offset(){
+        return 4;
+    }
     
     public void unparse(PrintWriter p, int indent) {
         p.print("void");
@@ -878,6 +891,10 @@ class StructNode extends TypeNode {
 
     public IdNode idNode() {
         return myId;
+    }
+
+    public int offset(){
+        return 0;
     }
     
     /**
