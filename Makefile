@@ -67,3 +67,7 @@ clean:
 
 cleantest:
 	rm -f test.s
+
+all:
+	rm -f *~ *.class parser.java cflat.jlex.java sym.java
+	rm -f test.s
