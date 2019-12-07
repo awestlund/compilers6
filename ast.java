@@ -604,7 +604,7 @@ class FnDeclNode extends DeclNode {
         FnSym sym = null;
 
         if(name == "main"){
-            mainBool = true;
+            ProgramNode.mainBool = true;
         }
         
         if (symTab.lookupLocal(name) != null) {
