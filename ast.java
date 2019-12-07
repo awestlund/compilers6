@@ -151,6 +151,13 @@ class ProgramNode extends ASTnode {
     public void typeCheck() {
         myDeclList.typeCheck();
     }
+
+    /**
+     * codeGen (added)
+     */
+    public void codeGen() {
+        myDeclList.codeGen();
+    }
     
     public void unparse(PrintWriter p, int indent) {
         myDeclList.unparse(p, indent);
@@ -166,8 +173,8 @@ class DeclListNode extends ASTnode {
     }
 
     /**
-     * nameAnalysis
-     * Given a symbol table symTab, process all of the decls in the list.
+     * nameAnalysis Given a symbol table symTab, process all of the decls in the
+     * list.
      */
     public void nameAnalysis(SymTable symTab) {
         nameAnalysis(symTab, symTab);
@@ -214,6 +221,15 @@ class DeclListNode extends ASTnode {
     public void typeCheck() {
         for (DeclNode node : myDecls) {
             node.typeCheck();
+        }
+    }
+
+    /**
+     * codeGen
+     */
+    public void codeGen() {
+        for (DeclNode node : myDecls) {
+            node.codeGen();
         }
     }
     
@@ -300,7 +316,15 @@ class FnBodyNode extends ASTnode {
      */
     public void typeCheck(Type retType) {
         myStmtList.typeCheck(retType);
-    }    
+    } 
+    
+    /**
+     * codeGen
+     */
+    public void codeGen() { 
+        myDeclList.codeGen();
+        myStmtList.codeGen();
+    }
           
     public void unparse(PrintWriter p, int indent) {
         myDeclList.unparse(p, indent);
@@ -333,6 +357,15 @@ class StmtListNode extends ASTnode {
     public void typeCheck(Type retType) {
         for(StmtNode node : myStmts) {
             node.typeCheck(retType);
+        }
+    }
+
+    /**
+     * codeGen
+     */
+    public void codeGen() { 
+        for(StmtNode node : myStmts) {
+            node.codeGen();
         }
     }
     
@@ -414,6 +447,8 @@ abstract class DeclNode extends ASTnode {
      * Note: a formal decl needs to return a sym
      */
     abstract public Sym nameAnalysis(SymTable symTab);
+
+    public void codeGen() { }
 
     // default version of typeCheck for non-function decls
     public void typeCheck() { }
@@ -505,7 +540,14 @@ class VarDeclNode extends DeclNode {
         }
         
         return sym;
-    }    
+    }   
+    
+    /**
+     * codeGen
+     */
+    public void codeGen() { 
+
+    }
     
     public void unparse(PrintWriter p, int indent) {
         addIndent(p, indent);
@@ -634,6 +676,13 @@ class FnDeclNode extends DeclNode {
         p.println("}\n");
     }
 
+    /**
+     * codeGen
+     */
+    public void codeGen() { 
+        myBody.codeGen();
+    }
+
     // 4 kids
     private TypeNode myType;
     private IdNode myId;
@@ -693,7 +742,14 @@ class FormalDeclNode extends DeclNode {
 	}
         
         return sym;
-    }    
+    }
+    
+    /**
+     * codeGen
+     */
+    public void codeGen() { 
+
+    }
     
     public void unparse(PrintWriter p, int indent) {
         myType.unparse(p, 0);
@@ -882,6 +938,7 @@ class StructNode extends TypeNode {
 abstract class StmtNode extends ASTnode {
     abstract public void nameAnalysis(SymTable symTab);
     abstract public void typeCheck(Type retType);
+    abstract public void codeGen();
 }
 
 class AssignStmtNode extends StmtNode {
@@ -902,6 +959,13 @@ class AssignStmtNode extends StmtNode {
      */
     public void typeCheck(Type retType) {
         myAssign.typeCheck();
+    }
+
+    /**
+     * codeGen
+     */
+    public void codeGen() { 
+       
     }
         
     public void unparse(PrintWriter p, int indent) {
@@ -938,6 +1002,13 @@ class PostIncStmtNode extends StmtNode {
                          "Arithmetic operator applied to non-numeric operand");
         }
     }
+
+    /**
+     * codeGen
+     */
+    public void codeGen() { 
+       
+    }
         
     public void unparse(PrintWriter p, int indent) {
         addIndent(p, indent);
@@ -972,6 +1043,13 @@ class PostDecStmtNode extends StmtNode {
             ErrMsg.fatal(myExp.lineNum(), myExp.charNum(),
                          "Arithmetic operator applied to non-numeric operand");
         }
+    }
+
+    /**
+     * codeGen
+     */
+    public void codeGen() { 
+       
     }
         
     public void unparse(PrintWriter p, int indent) {
@@ -1017,6 +1095,13 @@ class ReadStmtNode extends StmtNode {
             ErrMsg.fatal(myExp.lineNum(), myExp.charNum(),
                          "Attempt to read a struct variable");
         }
+    }
+
+    /**
+     * codeGen
+     */
+    public void codeGen() { 
+       
     }
     
     public void unparse(PrintWriter p, int indent) {
@@ -1071,6 +1156,13 @@ class WriteStmtNode extends StmtNode {
         }
         stmtType = type;
     }
+
+    /**
+     * codeGen
+     */
+    public void codeGen() { 
+       
+    }
         
     public void unparse(PrintWriter p, int indent) {
         addIndent(p, indent);
@@ -1124,6 +1216,13 @@ class IfStmtNode extends StmtNode {
         }
         
         myStmtList.typeCheck(retType);
+    }
+
+    /**
+     * codeGen
+     */
+    public void codeGen() { 
+       
     }
        
     public void unparse(PrintWriter p, int indent) {
@@ -1203,6 +1302,13 @@ class IfElseStmtNode extends StmtNode {
         myThenStmtList.typeCheck(retType);
         myElseStmtList.typeCheck(retType);
     }
+
+    /**
+     * codeGen
+     */
+    public void codeGen() { 
+       
+    }
         
     public void unparse(PrintWriter p, int indent) {
         addIndent(p, indent);
@@ -1271,6 +1377,13 @@ class WhileStmtNode extends StmtNode {
         
         myStmtList.typeCheck(retType);
     }
+
+    /**
+     * codeGen
+     */
+    public void codeGen() { 
+       
+    }
         
     public void unparse(PrintWriter p, int indent) {
         addIndent(p, indent);
@@ -1331,6 +1444,13 @@ class RepeatStmtNode extends StmtNode {
         
         myStmtList.typeCheck(retType);
     }
+
+    /**
+     * codeGen
+     */
+    public void codeGen() { 
+       // do nothing
+    }
         
     public void unparse(PrintWriter p, int indent) {
         addIndent(p, indent);
@@ -1368,6 +1488,13 @@ class CallStmtNode extends StmtNode {
      */
     public void typeCheck(Type retType) {
         myCall.typeCheck();
+    }
+
+    /**
+     * codeGen
+     */
+    public void codeGen() { 
+       
     }
     
     public void unparse(PrintWriter p, int indent) {
@@ -1420,6 +1547,13 @@ class ReturnStmtNode extends StmtNode {
             }
         }
         
+    }
+
+    /**
+     * codeGen
+     */
+    public void codeGen() { 
+       
     }
     
     public void unparse(PrintWriter p, int indent) {
