@@ -131,6 +131,9 @@ class ProgramNode extends ASTnode {
     //change to true if a main function is declared
     public static boolean mainBool = false;
 
+    //the Codegen object
+    public static Codegen codegen = new Codegen();
+
     /**
      * nameAnalysis
      * Creates an empty symbol table for the outermost scope, then processes
