@@ -1626,6 +1626,9 @@ class IntLitNode extends ExpNode {
     }
 
     public void codeGen() {
+        //    li    $t0, <value>        # load value into T0
+        //    sw    $t0, ($sp)          # push onto stack
+        //    subu  $sp, $sp, 4
 
     }
     
