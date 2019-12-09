@@ -965,7 +965,7 @@ class AssignStmtNode extends StmtNode {
      * codeGen
      */
     public void codeGen() { 
-       
+       myAssign.codeGen();
     }
         
     public void unparse(PrintWriter p, int indent) {
@@ -1007,7 +1007,7 @@ class PostIncStmtNode extends StmtNode {
      * codeGen
      */
     public void codeGen() { 
-       
+       myExp.codeGen();
     }
         
     public void unparse(PrintWriter p, int indent) {
@@ -1049,7 +1049,7 @@ class PostDecStmtNode extends StmtNode {
      * codeGen
      */
     public void codeGen() { 
-       
+       myExp.codeGen();
     }
         
     public void unparse(PrintWriter p, int indent) {
@@ -1101,7 +1101,7 @@ class ReadStmtNode extends StmtNode {
      * codeGen
      */
     public void codeGen() { 
-       
+       myExp.codeGen();
     }
     
     public void unparse(PrintWriter p, int indent) {
@@ -1161,7 +1161,7 @@ class WriteStmtNode extends StmtNode {
      * codeGen
      */
     public void codeGen() { 
-       
+       myExp.codeGen();
     }
         
     public void unparse(PrintWriter p, int indent) {
@@ -1222,7 +1222,9 @@ class IfStmtNode extends StmtNode {
      * codeGen
      */
     public void codeGen() { 
-       
+       myExp.codeGen();
+       myDeclList.codeGen();
+       myStmtList.codeGen();
     }
        
     public void unparse(PrintWriter p, int indent) {
@@ -1307,7 +1309,11 @@ class IfElseStmtNode extends StmtNode {
      * codeGen
      */
     public void codeGen() { 
-       
+       myExp.codeGen();
+       myThenDeclList.codeGen();
+       myThenStmtList.codeGen();
+       myElseDeclList.codeGen();
+       myElseStmtList.codeGen();
     }
         
     public void unparse(PrintWriter p, int indent) {
@@ -1382,7 +1388,9 @@ class WhileStmtNode extends StmtNode {
      * codeGen
      */
     public void codeGen() { 
-       
+       myExp.codeGen();
+       myDeclList.codeGen();
+       myStmtList.codeGen();
     }
         
     public void unparse(PrintWriter p, int indent) {
@@ -1494,7 +1502,7 @@ class CallStmtNode extends StmtNode {
      * codeGen
      */
     public void codeGen() { 
-       
+       myCall.codeGen();
     }
     
     public void unparse(PrintWriter p, int indent) {
@@ -1553,7 +1561,7 @@ class ReturnStmtNode extends StmtNode {
      * codeGen
      */
     public void codeGen() { 
-       
+       myExp.codeGen();
     }
     
     public void unparse(PrintWriter p, int indent) {
@@ -1583,6 +1591,7 @@ abstract class ExpNode extends ASTnode {
     abstract public Type typeCheck();
     abstract public int lineNum();
     abstract public int charNum();
+    abstract public void codeGen();
 }
 
 class IntLitNode extends ExpNode {
@@ -1611,6 +1620,10 @@ class IntLitNode extends ExpNode {
      */
     public Type typeCheck() {
         return new IntType();
+    }
+
+    public void codeGen() {
+
     }
     
     public void unparse(PrintWriter p, int indent) {
@@ -1649,6 +1662,10 @@ class StringLitNode extends ExpNode {
     public Type typeCheck() {
         return new StringType();
     }
+
+    public void codeGen() {
+        
+    }
         
     public void unparse(PrintWriter p, int indent) {
         p.print(myStrVal);
@@ -1685,6 +1702,10 @@ class TrueNode extends ExpNode {
     public Type typeCheck() {
         return new BoolType();
     }
+
+    public void codeGen() {
+        
+    }
         
     public void unparse(PrintWriter p, int indent) {
         p.print("true");
@@ -1719,6 +1740,10 @@ class FalseNode extends ExpNode {
      */
     public Type typeCheck() {
         return new BoolType();
+    }
+
+    public void codeGen() {
+        
     }
         
     public void unparse(PrintWriter p, int indent) {
@@ -1798,6 +1823,10 @@ class IdNode extends ExpNode {
             System.exit(-1);
         }
         return null;
+    }
+
+    public void codeGen() {
+        
     }
            
     public void unparse(PrintWriter p, int indent) {
@@ -1944,6 +1973,10 @@ class DotAccessExpNode extends ExpNode {
     public Type typeCheck() {
         return myId.typeCheck();
     }
+
+    public void codeGen() {
+        
+    }
     
     public void unparse(PrintWriter p, int indent) {
         myLoc.unparse(p, 0);
@@ -2024,6 +2057,10 @@ class AssignNode extends ExpNode {
         
         return retType;
     }
+
+    public void codeGen() {
+        
+    }
     
     public void unparse(PrintWriter p, int indent) {
         if (indent != -1)  p.print("(");
@@ -2100,6 +2137,10 @@ class CallExpNode extends ExpNode {
         
         myExpList.typeCheck(fnSym.getParamTypes());
         return fnSym.getReturnType();
+    }
+
+    public void codeGen() {
+        
     }
         
     // ** unparse **
@@ -2216,6 +2257,10 @@ class UnaryMinusNode extends UnaryExpNode {
         return retType;
     }
 
+    public void codeGen() {
+        
+    }
+
     public void unparse(PrintWriter p, int indent) {
         p.print("(-");
         myExp.unparse(p, 0);
@@ -2246,6 +2291,10 @@ class NotNode extends UnaryExpNode {
         }
         
         return retType;
+    }
+
+    public void codeGen() {
+        
     }
 
     public void unparse(PrintWriter p, int indent) {
@@ -2413,6 +2462,10 @@ class PlusNode extends ArithmeticExpNode {
     public PlusNode(ExpNode exp1, ExpNode exp2) {
         super(exp1, exp2);
     }
+
+    public void codeGen() {
+        
+    }
     
     public void unparse(PrintWriter p, int indent) {
         p.print("(");
@@ -2426,6 +2479,10 @@ class PlusNode extends ArithmeticExpNode {
 class MinusNode extends ArithmeticExpNode {
     public MinusNode(ExpNode exp1, ExpNode exp2) {
         super(exp1, exp2);
+    }
+
+    public void codeGen() {
+        
     }
     
     public void unparse(PrintWriter p, int indent) {
@@ -2442,6 +2499,9 @@ class TimesNode extends ArithmeticExpNode {
         super(exp1, exp2);
     }
 
+    public void codeGen() {
+        
+    }
     
     public void unparse(PrintWriter p, int indent) {
         p.print("(");
@@ -2455,6 +2515,10 @@ class TimesNode extends ArithmeticExpNode {
 class DivideNode extends ArithmeticExpNode {
     public DivideNode(ExpNode exp1, ExpNode exp2) {
         super(exp1, exp2);
+    }
+
+    public void codeGen() {
+        
     }
     
     public void unparse(PrintWriter p, int indent) {
@@ -2471,6 +2535,10 @@ class AndNode extends LogicalExpNode {
         super(exp1, exp2);
     }
     
+    public void codeGen() {
+        
+    }
+
     public void unparse(PrintWriter p, int indent) {
         p.print("(");
         myExp1.unparse(p, 0);
@@ -2483,6 +2551,10 @@ class AndNode extends LogicalExpNode {
 class OrNode extends LogicalExpNode {
     public OrNode(ExpNode exp1, ExpNode exp2) {
         super(exp1, exp2);
+    }
+
+    public void codeGen() {
+        
     }
     
     public void unparse(PrintWriter p, int indent) {
@@ -2498,6 +2570,10 @@ class EqualsNode extends EqualityExpNode {
     public EqualsNode(ExpNode exp1, ExpNode exp2) {
         super(exp1, exp2);
     }
+
+    public void codeGen() {
+        
+    }
     
     public void unparse(PrintWriter p, int indent) {
         p.print("(");
@@ -2512,6 +2588,10 @@ class NotEqualsNode extends EqualityExpNode {
     public NotEqualsNode(ExpNode exp1, ExpNode exp2) {
         super(exp1, exp2);
     }
+
+    public void codeGen() {
+        
+    }
     
     public void unparse(PrintWriter p, int indent) {
         p.print("(");
@@ -2525,6 +2605,10 @@ class NotEqualsNode extends EqualityExpNode {
 class LessNode extends RelationalExpNode {
     public LessNode(ExpNode exp1, ExpNode exp2) {
         super(exp1, exp2);
+    }
+
+    public void codeGen() {
+        
     }
     
     public void unparse(PrintWriter p, int indent) {
@@ -2541,6 +2625,10 @@ class GreaterNode extends RelationalExpNode {
         super(exp1, exp2);
     }
 
+    public void codeGen() {
+        
+    }
+
     public void unparse(PrintWriter p, int indent) {
         p.print("(");
         myExp1.unparse(p, 0);
@@ -2555,6 +2643,10 @@ class LessEqNode extends RelationalExpNode {
         super(exp1, exp2);
     }
 
+    public void codeGen() {
+        
+    }
+
     public void unparse(PrintWriter p, int indent) {
         p.print("(");
         myExp1.unparse(p, 0);
@@ -2567,6 +2659,10 @@ class LessEqNode extends RelationalExpNode {
 class GreaterEqNode extends RelationalExpNode {
     public GreaterEqNode(ExpNode exp1, ExpNode exp2) {
         super(exp1, exp2);
+    }
+
+    public void codeGen() {
+        
     }
 
     public void unparse(PrintWriter p, int indent) {
