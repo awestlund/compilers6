@@ -548,6 +548,14 @@ class VarDeclNode extends DeclNode {
      * codeGen
      */
     public void codeGen() { 
+        // Global Variables
+        ProgramNode.codegen.generate("",".data");
+        ProgramNode.codegen.generate("",".align",2);
+
+        String name = myId.name();
+        Sym sym = myId.sym();
+        int offset = sym.getOffest();
+        ProgramNode.codegen.generateLabeled("_"+name, ".space", "", Integer.toString(offset));
 
     }
     
