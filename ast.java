@@ -1135,6 +1135,11 @@ class ReadStmtNode extends StmtNode {
      */
     public void codeGen() { 
        myExp.codeGen();
+
+       if(myExp.typeCheck().isIntType()){
+        ProgramNode.codegen.generate("li","$v0",5);
+        ProgramNode.codegen.generate("syscall");
+       }
     }
     
     public void unparse(PrintWriter p, int indent) {
