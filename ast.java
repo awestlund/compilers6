@@ -23,9 +23,9 @@ import java.util.*;
 //     ProgramNode         DeclListNode
 //     DeclListNode        linked list of DeclNode
 //     DeclNode:
-//       VarDeclNode       TypeNode, IdNode, int
-//       FnDeclNode        TypeNode, IdNode, FormalsListNode, FnBodyNode
-//       FormalDeclNode    TypeNode, IdNode
+//       VarDeclNode       TypeNode, IdNode, int //T
+//       FnDeclNode        TypeNode, IdNode, FormalsListNode, FnBodyNode  //T
+//       FormalDeclNode    TypeNode, IdNode //T
 //       StructDeclNode    IdNode, DeclListNode
 //
 //     FormalsListNode     linked list of FormalDeclNode
@@ -40,32 +40,32 @@ import java.util.*;
 //       StructNode        IdNode
 //
 //     StmtNode:
-//       AssignStmtNode      AssignNode
-//       PostIncStmtNode     ExpNode
-//       PostDecStmtNode     ExpNode
-//       ReadStmtNode        ExpNode
-//       WriteStmtNode       ExpNode
-//       IfStmtNode          ExpNode, DeclListNode, StmtListNode
-//       IfElseStmtNode      ExpNode, DeclListNode, StmtListNode,
+//       AssignStmtNode      AssignNode //T
+//       PostIncStmtNode     ExpNode //T
+//       PostDecStmtNode     ExpNode //T
+//       ReadStmtNode        ExpNode //T
+//       WriteStmtNode       ExpNode //T
+//       IfStmtNode          ExpNode, DeclListNode, StmtListNode //A
+//       IfElseStmtNode      ExpNode, DeclListNode, StmtListNode, //A
 //                                    DeclListNode, StmtListNode
-//       WhileStmtNode       ExpNode, DeclListNode, StmtListNode
-//       RepeatStmtNode      ExpNode, DeclListNode, StmtListNode
-//       CallStmtNode        CallExpNode
-//       ReturnStmtNode      ExpNode
+//       WhileStmtNode       ExpNode, DeclListNode, StmtListNode //A
+//       RepeatStmtNode      ExpNode, DeclListNode, StmtListNode //A
+//       CallStmtNode        CallExpNode //A
+//       ReturnStmtNode      ExpNode //A
 //
 //     ExpNode:
-//       IntLitNode          -- none --
-//       StrLitNode          -- none --
-//       TrueNode            -- none --
-//       FalseNode           -- none --
-//       IdNode              -- none --
+//       IntLitNode          -- none -- //A
+//       StrLitNode          -- none -- //A
+//       TrueNode            -- none -- //A
+//       FalseNode           -- none -- //A
+//       IdNode              -- none -- //A
 //       DotAccessNode       ExpNode, IdNode
 //       AssignNode          ExpNode, ExpNode
 //       CallExpNode         IdNode, ExpListNode
-//       UnaryExpNode        ExpNode
+//       UnaryExpNode        ExpNode //T
 //         UnaryMinusNode
 //         NotNode
-//       BinaryExpNode       ExpNode ExpNode
+//       BinaryExpNode       ExpNode ExpNode //A
 //         PlusNode     
 //         MinusNode
 //         TimesNode
@@ -1673,6 +1673,11 @@ class StringLitNode extends ExpNode {
     }
 
     public void codeGen() {
+        String lable = ProgramNode.codegen.nextLabel();
+        // .data
+        // <label>: .asciiz <string value>
+        ProgramNode.codegen.genLabel(label);
+        
         
     }
         
