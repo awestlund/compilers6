@@ -1194,7 +1194,25 @@ class WriteStmtNode extends StmtNode {
      * codeGen
      */
     public void codeGen() { 
-       myExp.codeGen();
+        // step (1)
+        myExp.codeGen(); // For a string, 
+        // the codeGen method of the expression being printed will leave the address of the string on the stack.
+        
+        // I think these instructions are talking about StringLitNode
+
+        // step (2)
+        ProgramNode.codegen.genPop("A0");
+
+        // step (3)
+        if(myExp.typeCheck().isStringType()){
+            ProgramNode.codegen.generate("li","V0",4);
+        }
+        else{ // myExp is an int
+            ProgramNode.codegen.generate("li","V0",1);
+        }
+
+        // step (4)
+        ProgramNode.codegen.generate("syscall");
     }
         
     public void unparse(PrintWriter p, int indent) {
