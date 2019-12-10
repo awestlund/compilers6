@@ -325,7 +325,6 @@ class FnBodyNode extends ASTnode {
      * codeGen
      */
     public void codeGen() { 
-        myDeclList.codeGen();
         myStmtList.codeGen();
     }
           
@@ -714,7 +713,6 @@ class FnDeclNode extends DeclNode {
         ProgramNode.codegen.generate("subu","$sp","$sp",localsSize);
 
         //Function Body
-
         myBody.codeGen();
     }
 
