@@ -682,7 +682,39 @@ class FnDeclNode extends DeclNode {
     /**
      * codeGen
      */
-    public void codeGen() { 
+    public void codeGen(SymTable table) {
+        // Function Preamble
+        String name = myId.name();
+        if(name.equals("main")){
+            ProgramNode.codegen.generate("",".text");
+            ProgramNode.codegen.generate("",".global","main");
+            ProgramNode.codegen.genLabel("main");
+        }
+        else{
+            ProgramNode.codegen.generate("",".text");
+            ProgramNode.codegen.genLabel("_"+name);
+        } 
+
+        // Function Entry
+        ProgramNode.codegen.generateWithComment(""," (1) Push the return addr");
+        ProgramNode.codegen.generate("sw","$ra","0($sp)");
+        ProgramNode.codegen.generate("subu","$sp","$sp","4");
+
+        ProgramNode.codegen.generateWithComment(""," (2) Push the control link");
+        ProgramNode.codegen.generate("sw","$fp","0($sp)");
+        ProgramNode.codegen.generate("subu","$sp","$sp","4");
+
+        ProgramNode.codegen.generateWithComment(""," (3) set the FP");
+        ProgramNode.codegen.generate("addu","$fp","$sp","8");
+
+        ProgramNode.codegen.generateWithComment(""," (4) Push space for the locals");
+
+        FnSym functSym = (FnSym)myId.sym(); // get FnSym
+        int localsSize = functSym.getLocalsSize(); // get size of locals
+        ProgramNode.codegen.generate("subu","$sp","$sp",localsSize);
+
+        //Function Body
+
         myBody.codeGen();
     }
 
