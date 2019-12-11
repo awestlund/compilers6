@@ -684,7 +684,7 @@ class FnDeclNode extends DeclNode {
 
         FnSym functSym = (FnSym) myId.sym(); // get FnSym
         int localsSize = functSym.getLocalsSize(); // get size of locals
-        Codegen.generate("subu", "$sp", "$sp", localsSize);
+        //Codegen.generate("subu", "$sp", "$sp", localsSize);
 
         // Function Body
         myBody.codeGen();
