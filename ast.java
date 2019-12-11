@@ -1872,11 +1872,12 @@ class IdNode extends ExpNode {
      * to push that value onto the stack.
      */
     public void codeGen(SymTable symTab) {
+        mySym.codeGen();
         // how do we know if a var is global?? id pointer
         global = myId.lookupGlobal();
         // lw $t0 _g // load the value of int global g into T0
         if (global != null) {
-            ProgramNode.codegen.generate("lw", "$t0", myStrVal);
+            ProgramNode.codegen.generate("lw", "$t0", "_"+mySym.name());
         } else {
             // is the local value alread stored in 0 offset or do we do this here too??
             //read from the sym table
@@ -1894,15 +1895,17 @@ class IdNode extends ExpNode {
      */
     public void genAddr(SymTable symTab) {
         // how do we know if a var is global??
-        global = symTab.lookupGlobal(myId.name());
+        global = myId.lookupGlobal();
         // lw $t0 _g // load the value of int global g into T0
         if (global != null) {
-            g = ProgramNode.codegen.genPop("$t0");
-            ProgramNode.codegen.generate("la", "$t0", myStrVal);
+            ProgramNode.codegen.genPop("$t0");
+            ProgramNode.codegen.generate("la", "$t0", "$t0");
         } else {
             // is the local value alread stored in 0 offset or do we do this here too??
             // how do we know what this offset is??
-            ProgramNode.codegen.generate("la", "t0", "-8(fp)");
+            ProgramNode.codegen.generateIndexed();
+            ProgramNode.codegen.genPop("$t0");
+            ProgramNode.codegen.generate("la", "t0", "t0");
         }
     }
 
