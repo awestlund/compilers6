@@ -533,7 +533,7 @@ class VarDeclNode extends DeclNode {
 
         String name = myId.name();
         Sym sym = myId.sym();
-        int offset = sym.getOffest();
+        int offset = sym.getOffset();
         ProgramNode.codegen.generateLabeled("_" + name, ".space", "", Integer.toString(offset));
 
     }
@@ -959,6 +959,7 @@ class AssignStmtNode extends StmtNode {
      */
     public void codeGen() {
         myAssign.codeGen();
+        Codegen.genPop(""); // the AssignStmtNode must generate code to pop (and ignore) that value
     }
 
     public void unparse(PrintWriter p, int indent) {
@@ -1887,7 +1888,7 @@ class IdNode extends ExpNode {
             Codegen.generate("lw", "$t0", "_"+mySym.name());
         } else {
             // is the local value alread stored in 0 offset or do we do this here too??
-            int offset = mySym.getOffest();
+            int offset = mySym.getOffset();
             Codegen.genPop("$t0", offset);
             //read from the sym table
             Codegen.generate("lw", "$t0", "t0");
@@ -1908,13 +1909,13 @@ class IdNode extends ExpNode {
         global = mySym.isGlobal();
         // lw $t0 _g // load the value of int global g into T0
         if (global == true) {
-            int offset = mySym.getOffest();
+            int offset = mySym.getOffset();
             ProgramNode.codegen.genPop("$t0", offset);
             ProgramNode.codegen.generate("la", "$t0", "$t0");
         } else {
             // is the local value alread stored in 0 offset or do we do this here too??
             // how do we know what this offset is??
-            int offset = mySym.getOffest();
+            int offset = mySym.getOffset();
             ProgramNode.codegen.genPop("$t0", offset);
             ProgramNode.codegen.generate("la", "t0", "t0");
         }
@@ -2140,13 +2141,15 @@ class AssignNode extends ExpNode {
     public void codeGen() {
         myExp.codeGen(); // 1. Evaluate the right-hand-side expression, leaving the value on the stack
         
-        myLhs.genAddr(); // 2. Push the address of the left-hand-side Id onto the stack
+        //myLhs.genAddr(); 
         
-        IdNode id = (IdNode)myLhs; // 3. Store the value into the address
-        Sym sym = id.sym();
-        int offset = sym.getOffest();
-        Codegen.generate("sw","$sp","$sp");
-        // 4. Leave a copy of the value on the stack
+        IdNode id = (IdNode)myLhs; 
+        id.genAddr(); // 2. Push the address of the left-hand-side Id onto the stack
+        
+        Codegen.genPop("$v0"); // address
+        Codegen.genPop("$v1"); // value
+        Codegen.generate("sw","$v1","$v0"); // 3. Store the value into the address
+        Codegen.genPush("$v1");// 4. Leave a copy of the value on the stack
 
     }
 

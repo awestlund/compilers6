@@ -16,7 +16,7 @@ public class Sym {
         this.type = type;
         this.offset = offset;
     }
-    public int getOffest(){
+    public int getOffset(){
         return offset;
     }
     public boolean isGlobal(){
