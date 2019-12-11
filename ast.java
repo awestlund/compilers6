@@ -863,7 +863,7 @@ class IntNode extends TypeNode {
     }
 
     public int offset() {
-        return 4;
+        return -4;
     }
 
     public void unparse(PrintWriter p, int indent) {
@@ -883,7 +883,7 @@ class BoolNode extends TypeNode {
     }
 
     public int offset() {
-        return 1;
+        return -1;
     }
 
     public void unparse(PrintWriter p, int indent) {
@@ -903,7 +903,7 @@ class VoidNode extends TypeNode {
     }
 
     public int offset() {
-        return 4;
+        return -4;
     }
 
     public void unparse(PrintWriter p, int indent) {
