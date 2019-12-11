@@ -534,7 +534,7 @@ class VarDeclNode extends DeclNode {
         String name = myId.name();
         Sym sym = myId.sym();
         int offset = sym.getOffset();
-        Codegen.generateLabeled("_" + name, ".space", " ", Integer.toString(offset));
+        Codegen.generateLabeled("_" + name, ".space ", "", Integer.toString(offset));
 
     }
 
