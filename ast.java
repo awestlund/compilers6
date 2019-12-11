@@ -1883,10 +1883,10 @@ class IdNode extends ExpNode {
         // _<functionName>
         if(mySym instanceof FnSym){
             if (myStrVal == "main") {
-                Codegen.generate("jal", "main");
+                Codegen.generate("b", "main");
             } else {
                 String label = "_" + myStrVal;
-                Codegen.generate("jal", label);
+                Codegen.generate("b", label);
             }
         }
 
