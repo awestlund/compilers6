@@ -688,6 +688,22 @@ class FnDeclNode extends DeclNode {
 
         // Function Body
         myBody.codeGen();
+
+        if (name == "main") {
+            Codegen.genLabel("_main_Exit");
+            // lw    $ra, 0($fp)
+            Codegen.generate("lw", "$ra", "$fp", 0);
+            // move  $t0, $fp		#save control link
+            Codegen.generate("move", "$t0", "$fp");
+            // lw    $fp, -4($fp)	#restore FP
+            Codegen.generate("lw", "$fp", "$fp", -4);
+            // move  $sp, $t0		#restore SP
+            Codegen.generate("move", "$sp", "$t0");
+            // li $v0, 10     # load exit code for syscall
+            Codegen.generate("li", "$v0", "10");
+            // syscall        # only do this for main
+            Codegen.generate("syscall");
+        } 
     }
 
     // 4 kids
