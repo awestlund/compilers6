@@ -1720,6 +1720,8 @@ class StringLitNode extends ExpNode {
         Codegen.generate(".data");
         // <label>: .asciiz <string value>
         Codegen.generateLabeled(nextlabel, ".asciiz " + myStrVal, "");
+        Codegen.generate(".text");
+        Codegen.genPush("$t0");
     }
 
     public void unparse(PrintWriter p, int indent) {
