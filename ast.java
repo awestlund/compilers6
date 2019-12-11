@@ -1670,9 +1670,9 @@ class IntLitNode extends ExpNode {
     public void codeGen() {
         Codegen.generate("li", "$t0", myCharNum);
         // li $t0, <value> # load value into T0
-        Codegen.generate("sw", "$t0", "($sp)");
+        //Codegen.generate("sw", "$t0", "($sp)");
         // sw $t0, ($sp) # push onto stack
-        Codegen.genPush("");
+        Codegen.genPush("$t0");
         // subu $sp, $sp, 4
 
     }
