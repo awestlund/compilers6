@@ -1225,16 +1225,20 @@ class IfStmtNode extends StmtNode {
      * codeGen
      */
     public void codeGen() {
-        // myExp.codeGen();
-        // myDeclList.codeGen();
-        // myStmtList.codeGen();
         String falseLabel = Codegen.nextLabel();
         myExp.codeGen();
-        Codegen.genPop(Codegen.T0); // ?? T0
+        //lw $t0 4($sp) # pop LHS into $t0
+        // addu $sp $sp 4 #
+        Codegen.genPop("$t0"); // ?? T0
+        // bne $t0 $t1 L_0 # branch if condition false
         Codegen.generate("beq", Codegen.T0, Codegen.FALSE, falseLabel);
+        // li $t0 2 # true branch
+        // sw $t0 val
         myStmtList.codeGen();
+        // nop # end true branch
+        Codegen.generate("nop");
+        // L_0: 
         Codegen.genLabel(falseLabel);
-
     }
 
     public void unparse(PrintWriter p, int indent) {
@@ -1309,19 +1313,30 @@ class IfElseStmtNode extends StmtNode {
      * codeGen
      */
     public void codeGen() {
+        String falseLabel = Codegen.nextLabel();
+        String trueLabel = Codegen.nextLabel();
         myExp.codeGen();
-        myThenDeclList.codeGen();
-        myThenStmtList.codeGen();
-        myElseDeclList.codeGen();
-        myElseStmtList.codeGen();
+        //lw $t0 4($sp) # pop LHS into $t0
+        // addu $sp $sp 4 #
         // Evaluate the condition, leaving the value on the stack
         // Pop the top-of-stack value into register T0
+        Codegen.genPop("$t0"); // ?? T0
         // Jump to ElseLabel if T0 == FALSE
-        // Code for the statement list in If
-        // Jump to DoneLabel
+        Codegen.generate("beq", Codegen.T0, Codegen.FALSE, falseLabel);
+        // li $t0 2 # true branch
+        // sw $t0 val
+        myStmtList.codeGen();
+        // nop # end true branch
+        Codegen.generate("nop");
+        Codegen.generate("b", trueLabel);
+        //jump past the else
         // ElseLabel:
+        Codegen.genLabel(falseLabel);
         // Code for the statement list in Else
+        myElseStmtList.codeGen();
         // DoneLabel:
+        Codegen.generate("nop");
+        Codegen.genLabel(trueLabel);
     }
 
     public void unparse(PrintWriter p, int indent) {
@@ -1389,16 +1404,22 @@ class WhileStmtNode extends StmtNode {
     /**
      * codeGen
      */
+    protected static String breaklable;
+
     public void codeGen() {
+        String loopLable = Codegen.nextLabel();
+        String falseLable = Codegen.nextLabel();
+        String saveLable = breaklable;
+
+        breaklable = falseLable;
+        Codegen.genLabel(loopLable);
         myExp.codeGen();
-        myDeclList.codeGen();
+        Codegen.genPop("$t0");
+        Codegen.generate("beq", "$t0", Codegen.FALSE, falseLable);
         myStmtList.codeGen();
-        // LoopLabel:
-        // Evaluate the condition, leaving the value on the stack.
-        // Pop the top-of-stack value and see if it's zero; if zero, jump to DoneLab
-        // Code for the statements in the body of the loop.
-        // Jump to LoopLabel
-        // DoneLabel:
+        Codegen.generate("b", loopLable);
+        Codegen.genLabel(falseLable);
+        breaklable = saveLable;
     }
 
     public void unparse(PrintWriter p, int indent) {
