@@ -1325,7 +1325,7 @@ class IfElseStmtNode extends StmtNode {
         Codegen.generate("beq", Codegen.T0, Codegen.FALSE, falseLabel);
         // li $t0 2 # true branch
         // sw $t0 val
-        myStmtList.codeGen();
+        myThenStmtList.codeGen();
         // nop # end true branch
         Codegen.generate("nop");
         Codegen.generate("b", trueLabel);
