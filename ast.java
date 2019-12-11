@@ -528,13 +528,13 @@ class VarDeclNode extends DeclNode {
      */
     public void codeGen() {
         // Global Variables
-        ProgramNode.codegen.generate("", ".data");
-        ProgramNode.codegen.generate("", ".align", 2);
+        Codegen.generate("", ".data");
+        Codegen.generate("", ".align", 2);
 
         String name = myId.name();
         Sym sym = myId.sym();
         int offset = sym.getOffset();
-        ProgramNode.codegen.generateLabeled("_" + name, ".space", "", Integer.toString(offset));
+        Codegen.generateLabeled("_" + name, ".space", "", Integer.toString(offset));
 
     }
 
@@ -658,31 +658,31 @@ class FnDeclNode extends DeclNode {
         // Function Preamble
         String name = myId.name();
         if (name.equals("main")) {
-            ProgramNode.codegen.generate("", ".text");
-            ProgramNode.codegen.generate("", ".global", "main");
-            ProgramNode.codegen.genLabel("main");
+            Codegen.generate("", ".text");
+            Codegen.generate("", ".global", "main");
+            Codegen.genLabel("main");
         } else {
-            ProgramNode.codegen.generate("", ".text");
-            ProgramNode.codegen.genLabel("_" + name);
+            Codegen.generate("", ".text");
+            Codegen.genLabel("_" + name);
         }
 
         // Function Entry
-        ProgramNode.codegen.generateWithComment("", " (1) Push the return addr");
-        ProgramNode.codegen.generate("sw", "$ra", "0($sp)");
-        ProgramNode.codegen.generate("subu", "$sp", "$sp", "4");
+        Codegen.generateWithComment("", " (1) Push the return addr");
+        Codegen.generate("sw", "$ra", "0($sp)");
+        Codegen.generate("subu", "$sp", "$sp", "4");
 
-        ProgramNode.codegen.generateWithComment("", " (2) Push the control link");
-        ProgramNode.codegen.generate("sw", "$fp", "0($sp)");
-        ProgramNode.codegen.generate("subu", "$sp", "$sp", "4");
+        Codegen.generateWithComment("", " (2) Push the control link");
+        Codegen.generate("sw", "$fp", "0($sp)");
+        Codegen.generate("subu", "$sp", "$sp", "4");
 
-        ProgramNode.codegen.generateWithComment("", " (3) set the FP");
-        ProgramNode.codegen.generate("addu", "$fp", "$sp", "8");
+        Codegen.generateWithComment("", " (3) set the FP");
+        Codegen.generate("addu", "$fp", "$sp", "8");
 
-        ProgramNode.codegen.generateWithComment("", " (4) Push space for the locals");
+        Codegen.generateWithComment("", " (4) Push space for the locals");
 
         FnSym functSym = (FnSym) myId.sym(); // get FnSym
         int localsSize = functSym.getLocalsSize(); // get size of locals
-        ProgramNode.codegen.generate("subu", "$sp", "$sp", localsSize);
+        Codegen.generate("subu", "$sp", "$sp", localsSize);
 
         // Function Body
         myBody.codeGen();
@@ -1093,8 +1093,8 @@ class ReadStmtNode extends StmtNode {
         myExp.codeGen();
 
         if (myExp.typeCheck().isIntType()) {
-            ProgramNode.codegen.generate("li", "$v0", 5);
-            ProgramNode.codegen.generate("syscall");
+            Codegen.generate("li", "$v0", 5);
+            Codegen.generate("syscall");
         }
     }
 
@@ -1160,17 +1160,17 @@ class WriteStmtNode extends StmtNode {
         // I think these instructions are talking about StringLitNode
 
         // step (2)
-        ProgramNode.codegen.genPop("A0");
+        Codegen.genPop("A0");
 
         // step (3)
         if (myExp.typeCheck().isStringType()) {
-            ProgramNode.codegen.generate("li", "V0", 4);
+            Codegen.generate("li", "V0", 4);
         } else { // myExp is an int
-            ProgramNode.codegen.generate("li", "V0", 1);
+            Codegen.generate("li", "V0", 1);
         }
 
         // step (4)
-        ProgramNode.codegen.generate("syscall");
+        Codegen.generate("syscall");
     }
 
     public void unparse(PrintWriter p, int indent) {
@@ -1629,11 +1629,11 @@ class IntLitNode extends ExpNode {
     }
 
     public void codeGen() {
-        ProgramNode.codegen.generate("li", "$t0", myCharNum);
+        Codegen.generate("li", "$t0", myCharNum);
         // li $t0, <value> # load value into T0
-        ProgramNode.codegen.generate("sw", "$t0", "($sp)");
+        Codegen.generate("sw", "$t0", "($sp)");
         // sw $t0, ($sp) # push onto stack
-        ProgramNode.codegen.genPush("");
+        Codegen.genPush("");
         // subu $sp, $sp, 4
 
     }
@@ -1676,12 +1676,12 @@ class StringLitNode extends ExpNode {
     }
 
     public void codeGen() {
-        String nextlable = ProgramNode.codegen.nextLabel();
-        lable = ProgramNode.codegen.genLabel(nextlabel);
+        String nextlable = Codegen.nextLabel();
+        lable = Codegen.genLabel(nextlabel);
         // .data
-        ProgramNode.codegen.generate(".data");
+        Codegen.generate(".data");
         // <label>: .asciiz <string value>
-        ProgramNode.codegen.generateLabeled(label, ".asciiz", "", myStrVal);
+        Codegen.generateLabeled(label, ".asciiz", "", myStrVal);
 
     }
 
@@ -1722,11 +1722,11 @@ class TrueNode extends ExpNode {
     }
 
     public void codeGen() {
-        ProgramNode.codegen.generate("li", "$t0", myCharNum);
+        Codegen.generate("li", "$t0", myCharNum);
         // li $t0, <value> # load value into T0
-        ProgramNode.codegen.generate("sw", "$t0", "($sp)");
+        Codegen.generate("sw", "$t0", "($sp)");
         // sw $t0, ($sp) # push onto stack
-        ProgramNode.codegen.genPush("");
+        Codegen.genPush("");
         // subu $sp, $sp, 4
 
     }
@@ -1767,11 +1767,11 @@ class FalseNode extends ExpNode {
     }
 
     public void codeGen() {
-        ProgramNode.codegen.generate("li", "$t0", myCharNum);
+        Codegen.generate("li", "$t0", myCharNum);
         // li $t0, <value> # load value into T0
-        ProgramNode.codegen.generate("sw", "$t0", "($sp)");
+        Codegen.generate("sw", "$t0", "($sp)");
         // sw $t0, ($sp) # push onto stack
-        ProgramNode.codegen.genPush("");
+        Codegen.genPush("");
         // subu $sp, $sp, 4
     }
 
@@ -1865,10 +1865,10 @@ class IdNode extends ExpNode {
         // _<functionName>
         if(mySym instanceof FnSym){
             if (mySym.name() == "main") {
-                ProgramNode.codegen.generate("jal", "main");
+                Codegen.generate("jal", "main");
             } else {
                 String label = "_" + mySym.name();
-                ProgramNode.codegen.generate("jal", label);
+                Codegen.generate("jal", label);
             }
         }
 
@@ -1910,14 +1910,14 @@ class IdNode extends ExpNode {
         // lw $t0 _g // load the value of int global g into T0
         if (global == true) {
             int offset = mySym.getOffset();
-            ProgramNode.codegen.genPop("$t0", offset);
-            ProgramNode.codegen.generate("la", "$t0", "$t0");
+            Codegen.genPop("$t0", offset);
+            Codegen.generate("la", "$t0", "$t0");
         } else {
             // is the local value alread stored in 0 offset or do we do this here too??
             // how do we know what this offset is??
             int offset = mySym.getOffset();
-            ProgramNode.codegen.genPop("$t0", offset);
-            ProgramNode.codegen.generate("la", "t0", "t0");
+            Codegen.genPop("$t0", offset);
+            Codegen.generate("la", "t0", "t0");
         }
     }
 
