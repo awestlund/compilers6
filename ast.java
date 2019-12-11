@@ -696,7 +696,7 @@ class FnDeclNode extends DeclNode {
             // move  $t0, $fp		#save control link
             Codegen.generate("move", "$t0", "$fp");
             // lw    $fp, -4($fp)	#restore FP
-            Codegen.generate("lw", "$fp", "$fp", -4);
+            Codegen.generate("lw", "$fp", "-4($fp)");
             // move  $sp, $t0		#restore SP
             Codegen.generate("move", "$sp", "$t0");
             // li $v0, 10     # load exit code for syscall
