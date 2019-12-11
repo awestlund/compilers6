@@ -1719,7 +1719,7 @@ class StringLitNode extends ExpNode {
         // .data
         Codegen.generate(".data");
         // <label>: .asciiz <string value>
-        Codegen.generateLabeled(nextlabel, ".asciiz" + myStrVal, "");
+        Codegen.generateLabeled(nextlabel, ".asciiz " + myStrVal, "");
     }
 
     public void unparse(PrintWriter p, int indent) {
