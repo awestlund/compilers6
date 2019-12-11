@@ -661,6 +661,8 @@ class FnDeclNode extends DeclNode {
             Codegen.generate("", ".text");
             Codegen.generate("", ".global main");
             Codegen.genLabel("main");
+            Codegen.generateLabeled("__start", "", "add __start label for main only");
+            //__start:    # add __start label for main only
         } else {
             Codegen.generate("", ".text");
             Codegen.genLabel("_" + name);
