@@ -1697,12 +1697,12 @@ class StringLitNode extends ExpNode {
     }
 
     public void codeGen() {
-        String nextlable = Codegen.nextLabel();
-        label = Codegen.genLabel(nextlabel);
+        String nextlabel = Codegen.nextLabel();
+        Codegen.genLabel(nextlabel);
         // .data
         Codegen.generate(".data");
         // <label>: .asciiz <string value>
-        Codegen.generateLabeled(label, ".asciiz", "", myStrVal);
+        Codegen.generateLabeled(nextlabel, ".asciiz", "", myStrVal);
 
     }
 
@@ -2167,7 +2167,7 @@ class AssignNode extends ExpNode {
         Sym sym = id.sym();
 
         if( sym.isGlobal()){
-            Codegen.generate("la", "$t0", "_"+myStrVal);
+            Codegen.generate("la", "$t0", "_"+id.name());
         }
         else{
             //-8($fp) is not global
