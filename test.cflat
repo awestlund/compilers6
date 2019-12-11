@@ -1,18 +1,4 @@
-int i;
-int j;
-
 void main() {
     cout << "Hello world!";
     cout << "\n";
-    i = 5;
-    j = 10;
-
-    if (j > i){
-        j = 8;
-    }
-    else{
-        j = 3;
-    }
-    i = 0;
-
 }
