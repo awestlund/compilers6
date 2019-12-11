@@ -1160,13 +1160,13 @@ class WriteStmtNode extends StmtNode {
         // I think these instructions are talking about StringLitNode
 
         // step (2)
-        Codegen.genPop("A0");
+        Codegen.genPop("$a0");
 
         // step (3)
         if (myExp.typeCheck().isStringType()) {
-            Codegen.generate("li", "V0", 4);
+            Codegen.generate("li", "$v0", 4);
         } else { // myExp is an int
-            Codegen.generate("li", "V0", 1);
+            Codegen.generate("li", "$v0", 1);
         }
 
         // step (4)
