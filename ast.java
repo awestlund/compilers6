@@ -1856,6 +1856,7 @@ class IdNode extends ExpNode {
      * in the function's "preamble" code).
      */
     public void genJumpAndLink() {
+        mySym.codeGen();
         // The genJumpAndLink method will simply generate a jump-and-link instruction
         // (with opcode jal) using the appropriate label as the target of the jump. If
         // the called function is "main",
@@ -1902,10 +1903,11 @@ class IdNode extends ExpNode {
      * value of the right-hand-side expression into that address.
      */
     public void genAddr() {
+        mySym.codeGen();
         // how do we know if a var is global??
-        global = myId.lookupGlobal();
+        global = mySym.isGlobal();
         // lw $t0 _g // load the value of int global g into T0
-        if (global != null) {
+        if (global == true) {
             int offset = mySym.getOffest();
             ProgramNode.codegen.genPop("$t0", offset);
             ProgramNode.codegen.generate("la", "$t0", "$t0");
@@ -2767,6 +2769,7 @@ class GreaterEqNode extends RelationalExpNode {
     public void codeGen() {
         myExp1.codeGen();
         myExp2.codeGen();
+
         // How do we get the memory addresses for exp1/2??
         ProgramNode.codegen.generate("sge", "$t0", myExp1.toString(), myExp2.toString());
     }
