@@ -1880,16 +1880,16 @@ class IdNode extends ExpNode {
      */
     public void codeGen() {
         // how do we know if a var is global?? id pointer
-        global = mySym.isGlobal();
+        boolean global = mySym.isGlobal();
         // lw $t0 _g // load the value of int global g into T0
         if (global == true) {
             Codegen.generate("lw", "$t0", "_"+myStrVal);
         } else {
             // is the local value alread stored in 0 offset or do we do this here too??
             int offset = mySym.getOffset();
-            Codegen.genPop("$t0", offset);
+            // Codegen.genPop("$t0");
             //read from the sym table
-            Codegen.generate("lw", "$t0", "t0");
+            Codegen.generate("lw", "$t0", "t0", offset);
         }
         // lw t00(fp) // load the value of the int local stored at offset 0 into T0
 
@@ -1903,18 +1903,18 @@ class IdNode extends ExpNode {
      */
     public void genAddr() {
         // how do we know if a var is global??
-        global = mySym.isGlobal();
+        boolean global = mySym.isGlobal();
         // lw $t0 _g // load the value of int global g into T0
         if (global == true) {
             int offset = mySym.getOffset();
-            Codegen.genPop("$t0", offset);
-            Codegen.generate("la", "$t0", "$t0");
+            // Codegen.genPop("$t0");
+            Codegen.generate("la", "$t0", "$t0", offset);
         } else {
             // is the local value alread stored in 0 offset or do we do this here too??
             // how do we know what this offset is??
             int offset = mySym.getOffset();
-            Codegen.genPop("$t0", offset);
-            Codegen.generate("la", "t0", "t0");
+            // Codegen.genPop("$t0");
+            Codegen.generate("la", "t0", "t0", offset);
         }
     }
 
