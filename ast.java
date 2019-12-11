@@ -1929,7 +1929,7 @@ class IdNode extends ExpNode {
             int offset = mySym.getOffset();
             // Codegen.genPop("$t0");
             //read from the sym table
-            Codegen.generate("lw", "$t0", "$t0", offset);
+            Codegen.generate("lw", "$t0", offset+"($t0)");
         }
         // lw t00(fp) // load the value of the int local stored at offset 0 into T0
 
@@ -1948,13 +1948,13 @@ class IdNode extends ExpNode {
         if (global == true) {
             int offset = mySym.getOffset();
             // Codegen.genPop("$t0");
-            Codegen.generate("la", "$t0", "$t0", offset);
+            Codegen.generate("la", "$t0", offset+"($t0)");
         } else {
             // is the local value alread stored in 0 offset or do we do this here too??
             // how do we know what this offset is??
             int offset = mySym.getOffset();
             // Codegen.genPop("$t0");
-            Codegen.generate("la", "$t0", "$t0", offset);
+            Codegen.generate("la", "$t0", offset+"($t0)");
         }
     }
 
