@@ -12,5 +12,6 @@ void main() {
     else{
         j = 3;
     }
+    i = 0;
 
 }
