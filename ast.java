@@ -1676,8 +1676,8 @@ class StringLitNode extends ExpNode {
     }
 
     public void codeGen() {
-        String nextlable = Codegen.nextLabel();
-        label = Codegen.genLabel(nextlabel);
+        String nextlabel = Codegen.nextLabel();
+        String label = Codegen.genLabel(nextlabel);
         // .data
         Codegen.generate(".data");
         // <label>: .asciiz <string value>
@@ -2146,7 +2146,7 @@ class AssignNode extends ExpNode {
         Sym sym = id.sym();
 
         if( sym.isGlobal()){
-            Codegen.generate("la", "$t0", "_"+myStrVal);
+            Codegen.generate("la", "$t0", "_"+id.name());
         }
         else{
             //-8($fp) is not global
