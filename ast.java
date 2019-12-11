@@ -1857,7 +1857,6 @@ class IdNode extends ExpNode {
      * in the function's "preamble" code).
      */
     public void genJumpAndLink() {
-        mySym.codeGen();
         // The genJumpAndLink method will simply generate a jump-and-link instruction
         // (with opcode jal) using the appropriate label as the target of the jump. If
         // the called function is "main",
@@ -1880,7 +1879,6 @@ class IdNode extends ExpNode {
      * to push that value onto the stack.
      */
     public void codeGen() {
-        mySym.codeGen();
         // how do we know if a var is global?? id pointer
         global = mySym.isGlobal();
         // lw $t0 _g // load the value of int global g into T0
@@ -1904,7 +1902,6 @@ class IdNode extends ExpNode {
      * value of the right-hand-side expression into that address.
      */
     public void genAddr() {
-        mySym.codeGen();
         // how do we know if a var is global??
         global = mySym.isGlobal();
         // lw $t0 _g // load the value of int global g into T0
