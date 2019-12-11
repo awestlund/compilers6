@@ -2141,14 +2141,14 @@ class AssignNode extends ExpNode {
     public void codeGen() {
         myExp.codeGen(); // 1. Evaluate the right-hand-side expression, leaving the value on the stack
         
-        myLhs.genAddr(); // 2. Push the address of the left-hand-side Id onto the stack
+        myLhs.genAddr(); 
         
-        IdNode id = (IdNode)myLhs; // 3. Store the value into the address
-        Sym sym = id.sym();
-        int offset = sym.getOffset();
+        IdNode id = (IdNode)myLhs; 
+        id.genAddr(); // 2. Push the address of the left-hand-side Id onto the stack
+        
         Codegen.genPop("$v0"); // address
         Codegen.genPop("$v1"); // value
-        Codegen.generate("sw","$v1","$v0");
+        Codegen.generate("sw","$v1","$v0"); // 3. Store the value into the address
         Codegen.genPush("$v1");// 4. Leave a copy of the value on the stack
 
     }
