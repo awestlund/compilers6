@@ -692,7 +692,7 @@ class FnDeclNode extends DeclNode {
         if (name.equals("main")) {
             Codegen.genLabel("_main_Exit");
             // lw    $ra, 0($fp)
-            Codegen.generate("lw", "$ra", "$fp", 0);
+            Codegen.generate("lw", "$ra", "0($fp)");
             // move  $t0, $fp		#save control link
             Codegen.generate("move", "$t0", "$fp");
             // lw    $fp, -4($fp)	#restore FP
