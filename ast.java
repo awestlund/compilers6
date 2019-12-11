@@ -2190,7 +2190,7 @@ class AssignNode extends ExpNode {
         }
         else{
             //-8($fp) is not global
-            Codegen.generate("la", "$t0", "$fp", -8);
+            Codegen.generate("la", "$t0", -8+"($fp)");
         }
         Codegen.genPush("$t0");
         //pop LHS
@@ -2198,7 +2198,7 @@ class AssignNode extends ExpNode {
         //pop RHS
         Codegen.genPop("$t1");
         //Assign
-        Codegen.generate("sw", "$t0", "$t1", 0);
+        Codegen.generate("sw", "$t0", 0+"($t1)");
         
         // Codegen.genPop("$v0"); // address
         // Codegen.genPop("$v1"); // value
