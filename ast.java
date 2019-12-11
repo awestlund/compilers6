@@ -533,7 +533,7 @@ class VarDeclNode extends DeclNode {
 
         String name = myId.name();
         Sym sym = myId.sym();
-        int offset = sym.getOffest();
+        int offset = sym.getOffset();
         ProgramNode.codegen.generateLabeled("_" + name, ".space", "", Integer.toString(offset));
 
     }
@@ -1887,7 +1887,7 @@ class IdNode extends ExpNode {
             Codegen.generate("lw", "$t0", "_"+mySym.name());
         } else {
             // is the local value alread stored in 0 offset or do we do this here too??
-            int offset = mySym.getOffest();
+            int offset = mySym.getOffset();
             Codegen.genPop("$t0", offset);
             //read from the sym table
             Codegen.generate("lw", "$t0", "t0");
@@ -1908,13 +1908,13 @@ class IdNode extends ExpNode {
         global = mySym.isGlobal();
         // lw $t0 _g // load the value of int global g into T0
         if (global == true) {
-            int offset = mySym.getOffest();
+            int offset = mySym.getOffset();
             ProgramNode.codegen.genPop("$t0", offset);
             ProgramNode.codegen.generate("la", "$t0", "$t0");
         } else {
             // is the local value alread stored in 0 offset or do we do this here too??
             // how do we know what this offset is??
-            int offset = mySym.getOffest();
+            int offset = mySym.getOffset();
             ProgramNode.codegen.genPop("$t0", offset);
             ProgramNode.codegen.generate("la", "t0", "t0");
         }
@@ -2144,7 +2144,7 @@ class AssignNode extends ExpNode {
         
         IdNode id = (IdNode)myLhs; // 3. Store the value into the address
         Sym sym = id.sym();
-        int offset = sym.getOffest();
+        int offset = sym.getOffset();
         Codegen.generate("sw","$sp","$sp");
         // 4. Leave a copy of the value on the stack
 
