@@ -19,6 +19,14 @@ public class Sym {
     public int getOffest(){
         return offset;
     }
+    public boolean isGlobal(){
+        if (this.offset > 0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
     public Type getType() {
         return type;
     }
@@ -34,7 +42,8 @@ public class Sym {
  * information about the parameters.
  */
 class FnSym extends Sym {
-    // new fields
+    // new 
+    private int offset = 0;
     private Type returnType;
     private int numParams;
     private List<Type> paramTypes;
@@ -96,6 +105,15 @@ class FnSym extends Sym {
 
     public List<Type> getParamTypes() {
         return paramTypes;
+    }
+
+    public boolean isGlobal(){
+        if (this.offset > 0){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     public int getLocalsSize() {
