@@ -1559,6 +1559,10 @@ class ReturnStmtNode extends StmtNode {
      */
     public void codeGen() {
         myExp.codeGen();
+        Codegen.generate("lw","$ra","0($fp)");
+        Codegen.generate("move","$t0","$fp");
+        Codegen.generate("$sp","$t0");
+        Codegen.generate("jr","$ra");
     }
 
     public void unparse(PrintWriter p, int indent) {
