@@ -657,7 +657,7 @@ class FnDeclNode extends DeclNode {
     public void codeGen() {
         // Function Preamble
         String name = myId.name();
-        if (name.equals("main")) {
+        if (name == "main") {
             Codegen.generate("", ".text");
             Codegen.generate("", ".global", "main");
             Codegen.genLabel("main");
