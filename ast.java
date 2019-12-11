@@ -657,7 +657,7 @@ class FnDeclNode extends DeclNode {
     public void codeGen() {
         // Function Preamble
         String name = myId.name();
-        if (name == "main") {
+        if (name.equals("main")) {
             Codegen.generate("", ".text");
             Codegen.generate("", ".global main");
             Codegen.genLabel("main");
@@ -689,7 +689,7 @@ class FnDeclNode extends DeclNode {
         // Function Body
         myBody.codeGen();
 
-        if (name == "main") {
+        if (name.equals("main")) {
             Codegen.genLabel("_main_Exit");
             // lw    $ra, 0($fp)
             Codegen.generate("lw", "$ra", "$fp", 0);
