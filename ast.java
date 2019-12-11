@@ -1677,7 +1677,7 @@ class StringLitNode extends ExpNode {
 
     public void codeGen() {
         String nextlable = Codegen.nextLabel();
-        lable = Codegen.genLabel(nextlabel);
+        label = Codegen.genLabel(nextlabel);
         // .data
         Codegen.generate(".data");
         // <label>: .asciiz <string value>
@@ -2142,11 +2142,28 @@ class AssignNode extends ExpNode {
         
         IdNode id = (IdNode)myLhs; 
         id.genAddr(); // 2. Push the address of the left-hand-side Id onto the stack
+
+        Sym sym = id.sym();
+
+        if( sym.isGlobal()){
+            Codegen.generate("la", "$t0", "_"+myStrVal);
+        }
+        else{
+            //-8($fp) is not global
+            Codegen.generate("la", "$t0", "$fp", -8);
+        }
+        Codegen.genPush("$t0");
+        //pop LHS
+        Codegen.genPop("$t0");
+        //pop RHS
+        Codegen.genPop("$t1");
+        //Assign
+        Codegen.generate("sw", "$t0", "$t1", 0);
         
-        Codegen.genPop("$v0"); // address
-        Codegen.genPop("$v1"); // value
-        Codegen.generate("sw","$v1","$v0"); // 3. Store the value into the address
-        Codegen.genPush("$v1");// 4. Leave a copy of the value on the stack
+        // Codegen.genPop("$v0"); // address
+        // Codegen.genPop("$v1"); // value
+        // Codegen.generate("sw","$v1","$v0"); // 3. Store the value into the address
+        // Codegen.genPush("$v1");// 4. Leave a copy of the value on the stack
 
     }
 
