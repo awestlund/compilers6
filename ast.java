@@ -2539,8 +2539,27 @@ class PlusNode extends ArithmeticExpNode {
     public void codeGen() {
         myExp1.codeGen();
         myExp2.codeGen();
-        // How do we get the memory addresses for exp1/2??
-        ProgramNode.codegen.generate("add", "$t0", myExp1.toString(), myExp2.toString());
+        Codegen.genPop("$t1");
+        Codegen.genPop("$t0");
+        Codegen.generate("add", "$t0", "$t0", "$t1");
+        //push RHS
+        Codegen.genPush("$t0");
+        //push LHS
+        //la $t0 -8($fp)
+        if( mySym.isGlobal){
+            Codegen.generate("la", "$t0", "_"+mySym.name());
+        }
+        else{
+            //-8($fp) is not global
+            Codegen.generate("la", "$t0", "$fp", -8);
+        }
+        Codegen.genPush("$t0");
+        //pop LHS
+        Codegen.genPop("$t0");
+        //pop RHS
+        Codegen.genPop("$t1");
+        //Assign
+        Codegen.generate("sw", "$t0", "$t1", 0);
 
     }
 
@@ -2561,8 +2580,27 @@ class MinusNode extends ArithmeticExpNode {
     public void codeGen() {
         myExp1.codeGen();
         myExp2.codeGen();
-        // How do we get the memory addresses for exp1/2??
-        ProgramNode.codegen.generate("subu", "$t0", myExp1.toString(), myExp2.toString());
+        Codegen.genPop("$t1");
+        Codegen.genPop("$t0");
+        Codegen.generate("subu", "$t0", "$t0", "$t1");
+        //push RHS
+        Codegen.genPush("$t0");
+        //push LHS
+        //la $t0 -8($fp)
+        if( mySym.isGlobal){
+            Codegen.generate("la", "$t0", "_"+mySym.name());
+        }
+        else{
+            //-8($fp) is not global
+            Codegen.generate("la", "$t0", "$fp", -8);
+        }
+        Codegen.genPush("$t0");
+        //pop LHS
+        Codegen.genPop("$t0");
+        //pop RHS
+        Codegen.genPop("$t1");
+        //Assign
+        Codegen.generate("sw", "$t0", "$t1", 0);
     }
 
     public void unparse(PrintWriter p, int indent) {
@@ -2582,8 +2620,27 @@ class TimesNode extends ArithmeticExpNode {
     public void codeGen() {
         myExp1.codeGen();
         myExp2.codeGen();
-        // How do we get the memory addresses for exp1/2??
-        ProgramNode.codegen.generate("mul", "$t0", myExp1.toString(), myExp2.toString());
+        Codegen.genPop("$t1");
+        Codegen.genPop("$t0");
+        Codegen.generate("mul", "$t0", "$t0", "$t1");
+        //push RHS
+        Codegen.genPush("$t0");
+        //push LHS
+        //la $t0 -8($fp)
+        if( mySym.isGlobal){
+            Codegen.generate("la", "$t0", "_"+mySym.name());
+        }
+        else{
+            //-8($fp) is not global
+            Codegen.generate("la", "$t0", "$fp", -8);
+        }
+        Codegen.genPush("$t0");
+        //pop LHS
+        Codegen.genPop("$t0");
+        //pop RHS
+        Codegen.genPop("$t1");
+        //Assign
+        Codegen.generate("sw", "$t0", "$t1", 0);
     }
 
     public void unparse(PrintWriter p, int indent) {
@@ -2603,8 +2660,27 @@ class DivideNode extends ArithmeticExpNode {
     public void codeGen() {
         myExp1.codeGen();
         myExp2.codeGen();
-        // How do we get the memory addresses for exp1/2??
-        ProgramNode.codegen.generate("divu", "$t0", myExp1.toString(), myExp2.toString());
+        Codegen.genPop("$t1");
+        Codegen.genPop("$t0");
+        Codegen.generate("divu", "$t0", "$t0", "$t1");
+        //push RHS
+        Codegen.genPush("$t0");
+        //push LHS
+        //la $t0 -8($fp)
+        if( mySym.isGlobal){
+            Codegen.generate("la", "$t0", "_"+mySym.name());
+        }
+        else{
+            //-8($fp) is not global
+            Codegen.generate("la", "$t0", "$fp", -8);
+        }
+        Codegen.genPush("$t0");
+        //pop LHS
+        Codegen.genPop("$t0");
+        //pop RHS
+        Codegen.genPop("$t1");
+        //Assign
+        Codegen.generate("sw", "$t0", "$t1", 0);
     }
 
     public void unparse(PrintWriter p, int indent) {
@@ -2624,8 +2700,27 @@ class AndNode extends LogicalExpNode {
     public void codeGen() {
         myExp1.codeGen();
         myExp2.codeGen();
-        // How do we get the memory addresses for exp1/2??
-        ProgramNode.codegen.generate("and", "$t0", myExp1.toString(), myExp2.toString());
+        Codegen.genPop("$t1");
+        Codegen.genPop("$t0");
+        Codegen.generate("and", "$t0", "$t0", "$t1");
+        //push RHS
+        Codegen.genPush("$t0");
+        //push LHS
+        //la $t0 -8($fp)
+        if( mySym.isGlobal){
+            Codegen.generate("la", "$t0", "_"+mySym.name());
+        }
+        else{
+            //-8($fp) is not global
+            Codegen.generate("la", "$t0", "$fp", -8);
+        }
+        Codegen.genPush("$t0");
+        //pop LHS
+        Codegen.genPop("$t0");
+        //pop RHS
+        Codegen.genPop("$t1");
+        //Assign
+        Codegen.generate("sw", "$t0", "$t1", 0);
     }
 
     public void unparse(PrintWriter p, int indent) {
@@ -2645,8 +2740,27 @@ class OrNode extends LogicalExpNode {
     public void codeGen() {
         myExp1.codeGen();
         myExp2.codeGen();
-        // How do we get the memory addresses for exp1/2??
-        ProgramNode.codegen.generate("or", "$t0", myExp1.toString(), myExp2.toString());
+        Codegen.genPop("$t1");
+        Codegen.genPop("$t0");
+        Codegen.generate("or", "$t0", "$t0", "$t1");
+        //push RHS
+        Codegen.genPush("$t0");
+        //push LHS
+        //la $t0 -8($fp)
+        if( mySym.isGlobal){
+            Codegen.generate("la", "$t0", "_"+mySym.name());
+        }
+        else{
+            //-8($fp) is not global
+            Codegen.generate("la", "$t0", "$fp", -8);
+        }
+        Codegen.genPush("$t0");
+        //pop LHS
+        Codegen.genPop("$t0");
+        //pop RHS
+        Codegen.genPop("$t1");
+        //Assign
+        Codegen.generate("sw", "$t0", "$t1", 0);
     }
 
     public void unparse(PrintWriter p, int indent) {
@@ -2666,8 +2780,27 @@ class EqualsNode extends EqualityExpNode {
     public void codeGen() {
         myExp1.codeGen();
         myExp2.codeGen();
-        // How do we get the memory addresses for exp1/2??
-        ProgramNode.codegen.generate("seq", "$t0", myExp1.toString(), myExp2.toString());
+        Codegen.genPop("$t1");
+        Codegen.genPop("$t0");
+        Codegen.generate("seq", "$t0", "$t0", "$t1");
+        //push RHS
+        Codegen.genPush("$t0");
+        //push LHS
+        //la $t0 -8($fp)
+        if( mySym.isGlobal){
+            Codegen.generate("la", "$t0", "_"+mySym.name());
+        }
+        else{
+            //-8($fp) is not global
+            Codegen.generate("la", "$t0", "$fp", -8);
+        }
+        Codegen.genPush("$t0");
+        //pop LHS
+        Codegen.genPop("$t0");
+        //pop RHS
+        Codegen.genPop("$t1");
+        //Assign
+        Codegen.generate("sw", "$t0", "$t1", 0);
 
     }
 
@@ -2688,8 +2821,27 @@ class NotEqualsNode extends EqualityExpNode {
     public void codeGen() {
         myExp1.codeGen();
         myExp2.codeGen();
-        // How do we get the memory addresses for exp1/2??
-        ProgramNode.codegen.generate("sne", "$t0", myExp1.toString(), myExp2.toString());
+        Codegen.genPop("$t1");
+        Codegen.genPop("$t0");
+        Codegen.generate("sne", "$t0", "$t0", "$t1");
+        //push RHS
+        Codegen.genPush("$t0");
+        //push LHS
+        //la $t0 -8($fp)
+        if( mySym.isGlobal){
+            Codegen.generate("la", "$t0", "_"+mySym.name());
+        }
+        else{
+            //-8($fp) is not global
+            Codegen.generate("la", "$t0", "$fp", -8);
+        }
+        Codegen.genPush("$t0");
+        //pop LHS
+        Codegen.genPop("$t0");
+        //pop RHS
+        Codegen.genPop("$t1");
+        //Assign
+        Codegen.generate("sw", "$t0", "$t1", 0);
     }
 
     public void unparse(PrintWriter p, int indent) {
@@ -2709,8 +2861,27 @@ class LessNode extends RelationalExpNode {
     public void codeGen() {
         myExp1.codeGen();
         myExp2.codeGen();
-        // How do we get the memory addresses for exp1/2??
-        ProgramNode.codegen.generate("slt", "$t0", myExp1.toString(), myExp2.toString());
+        Codegen.genPop("$t1");
+        Codegen.genPop("$t0");
+        Codegen.generate("slt", "$t0", "$t0", "$t1");
+        //push RHS
+        Codegen.genPush("$t0");
+        //push LHS
+        //la $t0 -8($fp)
+        if( mySym.isGlobal){
+            Codegen.generate("la", "$t0", "_"+mySym.name());
+        }
+        else{
+            //-8($fp) is not global
+            Codegen.generate("la", "$t0", "$fp", -8);
+        }
+        Codegen.genPush("$t0");
+        //pop LHS
+        Codegen.genPop("$t0");
+        //pop RHS
+        Codegen.genPop("$t1");
+        //Assign
+        Codegen.generate("sw", "$t0", "$t1", 0);
 
     }
 
@@ -2731,8 +2902,27 @@ class GreaterNode extends RelationalExpNode {
     public void codeGen() {
         myExp1.codeGen();
         myExp2.codeGen();
-        // How do we get the memory addresses for exp1/2??
-        ProgramNode.codegen.generate("sgt", "$t0", myExp1.toString(), myExp2.toString());
+        Codegen.genPop("$t1");
+        Codegen.genPop("$t0");
+        Codegen.generate("sgt", "$t0", "$t0", "$t1");
+        //push RHS
+        Codegen.genPush("$t0");
+        //push LHS
+        //la $t0 -8($fp)
+        if( mySym.isGlobal){
+            Codegen.generate("la", "$t0", "_"+mySym.name());
+        }
+        else{
+            //-8($fp) is not global
+            Codegen.generate("la", "$t0", "$fp", -8);
+        }
+        Codegen.genPush("$t0");
+        //pop LHS
+        Codegen.genPop("$t0");
+        //pop RHS
+        Codegen.genPop("$t1");
+        //Assign
+        Codegen.generate("sw", "$t0", "$t1", 0);
     }
 
     public void unparse(PrintWriter p, int indent) {
@@ -2752,8 +2942,27 @@ class LessEqNode extends RelationalExpNode {
     public void codeGen() {
         myExp1.codeGen();
         myExp2.codeGen();
-        // How do we get the memory addresses for exp1/2??
-        ProgramNode.codegen.generate("sle", "$t0", myExp1.toString(), myExp2.toString());
+        Codegen.genPop("$t1");
+        Codegen.genPop("$t0");
+        Codegen.generate("sle", "$t0", "$t0", "$t1");
+        //push RHS
+        Codegen.genPush("$t0");
+        //push LHS
+        //la $t0 -8($fp)
+        if( mySym.isGlobal){
+            Codegen.generate("la", "$t0", "_"+mySym.name());
+        }
+        else{
+            //-8($fp) is not global
+            Codegen.generate("la", "$t0", "$fp", -8);
+        }
+        Codegen.genPush("$t0");
+        //pop LHS
+        Codegen.genPop("$t0");
+        //pop RHS
+        Codegen.genPop("$t1");
+        //Assign
+        Codegen.generate("sw", "$t0", "$t1", 0);
 
     }
 
@@ -2774,9 +2983,27 @@ class GreaterEqNode extends RelationalExpNode {
     public void codeGen() {
         myExp1.codeGen();
         myExp2.codeGen();
-
-        // How do we get the memory addresses for exp1/2??
-        ProgramNode.codegen.generate("sge", "$t0", myExp1.toString(), myExp2.toString());
+        Codegen.genPop("$t1");
+        Codegen.genPop("$t0");
+        Codegen.generate("sge", "$t0", "$t0", "$t1");
+        //push RHS
+        Codegen.genPush("$t0");
+        //push LHS
+        //la $t0 -8($fp)
+        if( mySym.isGlobal){
+            Codegen.generate("la", "$t0", "_"+mySym.name());
+        }
+        else{
+            //-8($fp) is not global
+            Codegen.generate("la", "$t0", "$fp", -8);
+        }
+        Codegen.genPush("$t0");
+        //pop LHS
+        Codegen.genPop("$t0");
+        //pop RHS
+        Codegen.genPop("$t1");
+        //Assign
+        Codegen.generate("sw", "$t0", "$t1", 0);
     }
 
     public void unparse(PrintWriter p, int indent) {
