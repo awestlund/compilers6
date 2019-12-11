@@ -247,7 +247,8 @@ public class Codegen {
     //        L0 L1 L2, etc.
     // **********************************************************************
     public static String nextLabel() {
-        Integer k = new Integer(currLabel++);
+        currLabel++;
+        Integer k = currLabel;
         String tmp = ".L" + k;
         return(tmp);
     }
