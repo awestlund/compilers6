@@ -2136,6 +2136,10 @@ class AssignNode extends ExpNode {
     }
 
     public void codeGen() {
+        myExp.codeGen(); // 1. Evaluate the right-hand-side expression, leaving the value on the stack
+        myLhs.codeGen(); // 2. Push the address of the left-hand-side Id onto the stack
+        // 3. Store the value into the address
+        // 4. Leave a copy of the value on the stack
 
     }
 
