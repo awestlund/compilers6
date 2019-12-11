@@ -2544,22 +2544,6 @@ class PlusNode extends ArithmeticExpNode {
         Codegen.generate("add", "$t0", "$t0", "$t1");
         //push RHS
         Codegen.genPush("$t0");
-        //push LHS
-        //la $t0 -8($fp)
-        if( mySym.isGlobal()){
-            Codegen.generate("la", "$t0", "_"+myStrVal);
-        }
-        else{
-            //-8($fp) is not global
-            Codegen.generate("la", "$t0", "$fp", -8);
-        }
-        Codegen.genPush("$t0");
-        //pop LHS
-        Codegen.genPop("$t0");
-        //pop RHS
-        Codegen.genPop("$t1");
-        //Assign
-        Codegen.generate("sw", "$t0", "$t1", 0);
 
     }
 
@@ -2585,22 +2569,6 @@ class MinusNode extends ArithmeticExpNode {
         Codegen.generate("subu", "$t0", "$t0", "$t1");
         //push RHS
         Codegen.genPush("$t0");
-        //push LHS
-        //la $t0 -8($fp)
-        if( mySym.isGlobal()){
-            Codegen.generate("la", "$t0", "_"+myStrVal);
-        }
-        else{
-            //-8($fp) is not global
-            Codegen.generate("la", "$t0", "$fp", -8);
-        }
-        Codegen.genPush("$t0");
-        //pop LHS
-        Codegen.genPop("$t0");
-        //pop RHS
-        Codegen.genPop("$t1");
-        //Assign
-        Codegen.generate("sw", "$t0", "$t1", 0);
     }
 
     public void unparse(PrintWriter p, int indent) {
@@ -2625,22 +2593,6 @@ class TimesNode extends ArithmeticExpNode {
         Codegen.generate("mul", "$t0", "$t0", "$t1");
         //push RHS
         Codegen.genPush("$t0");
-        //push LHS
-        //la $t0 -8($fp)
-        if( mySym.isGlobal()){
-            Codegen.generate("la", "$t0", "_"+myStrVal);
-        }
-        else{
-            //-8($fp) is not global
-            Codegen.generate("la", "$t0", "$fp", -8);
-        }
-        Codegen.genPush("$t0");
-        //pop LHS
-        Codegen.genPop("$t0");
-        //pop RHS
-        Codegen.genPop("$t1");
-        //Assign
-        Codegen.generate("sw", "$t0", "$t1", 0);
     }
 
     public void unparse(PrintWriter p, int indent) {
@@ -2665,22 +2617,6 @@ class DivideNode extends ArithmeticExpNode {
         Codegen.generate("divu", "$t0", "$t0", "$t1");
         //push RHS
         Codegen.genPush("$t0");
-        //push LHS
-        //la $t0 -8($fp)
-        if( mySym.isGlobal()){
-            Codegen.generate("la", "$t0", "_"+myStrVal);
-        }
-        else{
-            //-8($fp) is not global
-            Codegen.generate("la", "$t0", "$fp", -8);
-        }
-        Codegen.genPush("$t0");
-        //pop LHS
-        Codegen.genPop("$t0");
-        //pop RHS
-        Codegen.genPop("$t1");
-        //Assign
-        Codegen.generate("sw", "$t0", "$t1", 0);
     }
 
     public void unparse(PrintWriter p, int indent) {
@@ -2705,22 +2641,6 @@ class AndNode extends LogicalExpNode {
         Codegen.generate("and", "$t0", "$t0", "$t1");
         //push RHS
         Codegen.genPush("$t0");
-        //push LHS
-        //la $t0 -8($fp)
-        if( mySym.isGlobal()){
-            Codegen.generate("la", "$t0", "_"+myStrVal);
-        }
-        else{
-            //-8($fp) is not global
-            Codegen.generate("la", "$t0", "$fp", -8);
-        }
-        Codegen.genPush("$t0");
-        //pop LHS
-        Codegen.genPop("$t0");
-        //pop RHS
-        Codegen.genPop("$t1");
-        //Assign
-        Codegen.generate("sw", "$t0", "$t1", 0);
     }
 
     public void unparse(PrintWriter p, int indent) {
@@ -2745,22 +2665,6 @@ class OrNode extends LogicalExpNode {
         Codegen.generate("or", "$t0", "$t0", "$t1");
         //push RHS
         Codegen.genPush("$t0");
-        //push LHS
-        //la $t0 -8($fp)
-        if( mySym.isGlobal()){
-            Codegen.generate("la", "$t0", "_"+myStrVal);
-        }
-        else{
-            //-8($fp) is not global
-            Codegen.generate("la", "$t0", "$fp", -8);
-        }
-        Codegen.genPush("$t0");
-        //pop LHS
-        Codegen.genPop("$t0");
-        //pop RHS
-        Codegen.genPop("$t1");
-        //Assign
-        Codegen.generate("sw", "$t0", "$t1", 0);
     }
 
     public void unparse(PrintWriter p, int indent) {
@@ -2785,22 +2689,6 @@ class EqualsNode extends EqualityExpNode {
         Codegen.generate("seq", "$t0", "$t0", "$t1");
         //push RHS
         Codegen.genPush("$t0");
-        //push LHS
-        //la $t0 -8($fp)
-        if( mySym.isGlobal()){
-            Codegen.generate("la", "$t0", "_"+myStrVal);
-        }
-        else{
-            //-8($fp) is not global
-            Codegen.generate("la", "$t0", "$fp", -8);
-        }
-        Codegen.genPush("$t0");
-        //pop LHS
-        Codegen.genPop("$t0");
-        //pop RHS
-        Codegen.genPop("$t1");
-        //Assign
-        Codegen.generate("sw", "$t0", "$t1", 0);
 
     }
 
@@ -2826,22 +2714,6 @@ class NotEqualsNode extends EqualityExpNode {
         Codegen.generate("sne", "$t0", "$t0", "$t1");
         //push RHS
         Codegen.genPush("$t0");
-        //push LHS
-        //la $t0 -8($fp)
-        if( mySym.isGlobal()){
-            Codegen.generate("la", "$t0", "_"+myStrVal);
-        }
-        else{
-            //-8($fp) is not global
-            Codegen.generate("la", "$t0", "$fp", -8);
-        }
-        Codegen.genPush("$t0");
-        //pop LHS
-        Codegen.genPop("$t0");
-        //pop RHS
-        Codegen.genPop("$t1");
-        //Assign
-        Codegen.generate("sw", "$t0", "$t1", 0);
     }
 
     public void unparse(PrintWriter p, int indent) {
@@ -2866,22 +2738,6 @@ class LessNode extends RelationalExpNode {
         Codegen.generate("slt", "$t0", "$t0", "$t1");
         //push RHS
         Codegen.genPush("$t0");
-        //push LHS
-        //la $t0 -8($fp)
-        if( mySym.isGlobal()){
-            Codegen.generate("la", "$t0", "_"+myStrVal);
-        }
-        else{
-            //-8($fp) is not global
-            Codegen.generate("la", "$t0", "$fp", -8);
-        }
-        Codegen.genPush("$t0");
-        //pop LHS
-        Codegen.genPop("$t0");
-        //pop RHS
-        Codegen.genPop("$t1");
-        //Assign
-        Codegen.generate("sw", "$t0", "$t1", 0);
 
     }
 
@@ -2907,22 +2763,6 @@ class GreaterNode extends RelationalExpNode {
         Codegen.generate("sgt", "$t0", "$t0", "$t1");
         //push RHS
         Codegen.genPush("$t0");
-        //push LHS
-        //la $t0 -8($fp)
-        if( mySym.isGlobal()){
-            Codegen.generate("la", "$t0", "_"+myStrVal);
-        }
-        else{
-            //-8($fp) is not global
-            Codegen.generate("la", "$t0", "$fp", -8);
-        }
-        Codegen.genPush("$t0");
-        //pop LHS
-        Codegen.genPop("$t0");
-        //pop RHS
-        Codegen.genPop("$t1");
-        //Assign
-        Codegen.generate("sw", "$t0", "$t1", 0);
     }
 
     public void unparse(PrintWriter p, int indent) {
@@ -2947,22 +2787,6 @@ class LessEqNode extends RelationalExpNode {
         Codegen.generate("sle", "$t0", "$t0", "$t1");
         //push RHS
         Codegen.genPush("$t0");
-        //push LHS
-        //la $t0 -8($fp)
-        if( mySym.isGlobal()){
-            Codegen.generate("la", "$t0", "_"+myStrVal);
-        }
-        else{
-            //-8($fp) is not global
-            Codegen.generate("la", "$t0", "$fp", -8);
-        }
-        Codegen.genPush("$t0");
-        //pop LHS
-        Codegen.genPop("$t0");
-        //pop RHS
-        Codegen.genPop("$t1");
-        //Assign
-        Codegen.generate("sw", "$t0", "$t1", 0);
 
     }
 
@@ -2988,22 +2812,6 @@ class GreaterEqNode extends RelationalExpNode {
         Codegen.generate("sge", "$t0", "$t0", "$t1");
         //push RHS
         Codegen.genPush("$t0");
-        //push LHS
-        //la $t0 -8($fp)
-        if( mySym.isGlobal()){
-            Codegen.generate("la", "$t0", "_"+myStrVal);
-        }
-        else{
-            //-8($fp) is not global
-            Codegen.generate("la", "$t0", "$fp", -8);
-        }
-        Codegen.genPush("$t0");
-        //pop LHS
-        Codegen.genPop("$t0");
-        //pop RHS
-        Codegen.genPop("$t1");
-        //Assign
-        Codegen.generate("sw", "$t0", "$t1", 0);
     }
 
     public void unparse(PrintWriter p, int indent) {
