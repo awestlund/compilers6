@@ -977,7 +977,7 @@ class AssignStmtNode extends StmtNode {
      */
     public void codeGen() {
         myAssign.codeGen();
-        Codegen.genPop(""); // the AssignStmtNode must generate code to pop (and ignore) that value
+        Codegen.genPop("$t0"); // the AssignStmtNode must generate code to pop (and ignore) that value
     }
 
     public void unparse(PrintWriter p, int indent) {
