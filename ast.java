@@ -2546,7 +2546,7 @@ class PlusNode extends ArithmeticExpNode {
         Codegen.genPush("$t0");
         //push LHS
         //la $t0 -8($fp)
-        if( mySym.isGlobal){
+        if( mySym.isGlobal()){
             Codegen.generate("la", "$t0", "_"+mySym.name());
         }
         else{
@@ -2587,7 +2587,7 @@ class MinusNode extends ArithmeticExpNode {
         Codegen.genPush("$t0");
         //push LHS
         //la $t0 -8($fp)
-        if( mySym.isGlobal){
+        if( mySym.isGlobal()){
             Codegen.generate("la", "$t0", "_"+mySym.name());
         }
         else{
@@ -2627,7 +2627,7 @@ class TimesNode extends ArithmeticExpNode {
         Codegen.genPush("$t0");
         //push LHS
         //la $t0 -8($fp)
-        if( mySym.isGlobal){
+        if( mySym.isGlobal()){
             Codegen.generate("la", "$t0", "_"+mySym.name());
         }
         else{
@@ -2667,7 +2667,7 @@ class DivideNode extends ArithmeticExpNode {
         Codegen.genPush("$t0");
         //push LHS
         //la $t0 -8($fp)
-        if( mySym.isGlobal){
+        if( mySym.isGlobal()){
             Codegen.generate("la", "$t0", "_"+mySym.name());
         }
         else{
@@ -2707,7 +2707,7 @@ class AndNode extends LogicalExpNode {
         Codegen.genPush("$t0");
         //push LHS
         //la $t0 -8($fp)
-        if( mySym.isGlobal){
+        if( mySym.isGlobal()){
             Codegen.generate("la", "$t0", "_"+mySym.name());
         }
         else{
@@ -2747,7 +2747,7 @@ class OrNode extends LogicalExpNode {
         Codegen.genPush("$t0");
         //push LHS
         //la $t0 -8($fp)
-        if( mySym.isGlobal){
+        if( mySym.isGlobal()){
             Codegen.generate("la", "$t0", "_"+mySym.name());
         }
         else{
@@ -2787,7 +2787,7 @@ class EqualsNode extends EqualityExpNode {
         Codegen.genPush("$t0");
         //push LHS
         //la $t0 -8($fp)
-        if( mySym.isGlobal){
+        if( mySym.isGlobal()){
             Codegen.generate("la", "$t0", "_"+mySym.name());
         }
         else{
@@ -2828,7 +2828,7 @@ class NotEqualsNode extends EqualityExpNode {
         Codegen.genPush("$t0");
         //push LHS
         //la $t0 -8($fp)
-        if( mySym.isGlobal){
+        if( mySym.isGlobal()){
             Codegen.generate("la", "$t0", "_"+mySym.name());
         }
         else{
@@ -2868,7 +2868,7 @@ class LessNode extends RelationalExpNode {
         Codegen.genPush("$t0");
         //push LHS
         //la $t0 -8($fp)
-        if( mySym.isGlobal){
+        if( mySym.isGlobal()){
             Codegen.generate("la", "$t0", "_"+mySym.name());
         }
         else{
@@ -2909,7 +2909,7 @@ class GreaterNode extends RelationalExpNode {
         Codegen.genPush("$t0");
         //push LHS
         //la $t0 -8($fp)
-        if( mySym.isGlobal){
+        if( mySym.isGlobal()){
             Codegen.generate("la", "$t0", "_"+mySym.name());
         }
         else{
@@ -2949,7 +2949,7 @@ class LessEqNode extends RelationalExpNode {
         Codegen.genPush("$t0");
         //push LHS
         //la $t0 -8($fp)
-        if( mySym.isGlobal){
+        if( mySym.isGlobal()){
             Codegen.generate("la", "$t0", "_"+mySym.name());
         }
         else{
@@ -2990,7 +2990,7 @@ class GreaterEqNode extends RelationalExpNode {
         Codegen.genPush("$t0");
         //push LHS
         //la $t0 -8($fp)
-        if( mySym.isGlobal){
+        if( mySym.isGlobal()){
             Codegen.generate("la", "$t0", "_"+mySym.name());
         }
         else{
