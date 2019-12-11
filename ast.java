@@ -654,7 +654,7 @@ class FnDeclNode extends DeclNode {
     /**
      * codeGen
      */
-    public void codeGen(SymTable table) {
+    public void codeGen() {
         // Function Preamble
         String name = myId.name();
         if (name.equals("main")) {
