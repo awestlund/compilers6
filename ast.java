@@ -1698,12 +1698,10 @@ class StringLitNode extends ExpNode {
 
     public void codeGen() {
         String nextlabel = Codegen.nextLabel();
-        Codegen.genLabel(nextlabel);
         // .data
         Codegen.generate(".data");
         // <label>: .asciiz <string value>
         Codegen.generateLabeled(nextlabel, ".asciiz", myStrVal);
-
     }
 
     public void unparse(PrintWriter p, int indent) {
