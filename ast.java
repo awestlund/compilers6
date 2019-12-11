@@ -959,6 +959,7 @@ class AssignStmtNode extends StmtNode {
      */
     public void codeGen() {
         myAssign.codeGen();
+        Codegen.genPop(""); // the AssignStmtNode must generate code to pop (and ignore) that value
     }
 
     public void unparse(PrintWriter p, int indent) {
@@ -2145,8 +2146,10 @@ class AssignNode extends ExpNode {
         IdNode id = (IdNode)myLhs; // 3. Store the value into the address
         Sym sym = id.sym();
         int offset = sym.getOffset();
-        Codegen.generate("sw","$sp","$sp");
-        // 4. Leave a copy of the value on the stack
+        Codegen.genPop("$v0"); // address
+        Codegen.genPop("$v1"); // value
+        Codegen.generate("sw","$v1","$v0");
+        Codegen.genPush("$v1");// 4. Leave a copy of the value on the stack
 
     }
 
