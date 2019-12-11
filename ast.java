@@ -1889,7 +1889,7 @@ class IdNode extends ExpNode {
             int offset = mySym.getOffset();
             // Codegen.genPop("$t0");
             //read from the sym table
-            Codegen.generate("lw", "$t0", "t0", offset);
+            Codegen.generate("lw", "$t0", "$t0", offset);
         }
         // lw t00(fp) // load the value of the int local stored at offset 0 into T0
 
@@ -1914,7 +1914,7 @@ class IdNode extends ExpNode {
             // how do we know what this offset is??
             int offset = mySym.getOffset();
             // Codegen.genPop("$t0");
-            Codegen.generate("la", "t0", "t0", offset);
+            Codegen.generate("la", "$t0", "$t0", offset);
         }
     }
 
