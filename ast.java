@@ -1855,17 +1855,19 @@ class IdNode extends ExpNode {
      * using the name of the function (the same name that was generated as a label
      * in the function's "preamble" code).
      */
-    public void genJumpAndLink(String funcName) {
+    public void genJumpAndLink() {
         // The genJumpAndLink method will simply generate a jump-and-link instruction
         // (with opcode jal) using the appropriate label as the target of the jump. If
         // the called function is "main",
         // the label is just "main". For all other functions, the label is of the form:
         // _<functionName>
-        if (funcName == "main") {
-            ProgramNode.codegen.generate("jal", "main");
-        } else {
-            String label = "-" + funcName;
-            ProgramNode.codegen.generate("jal", label);
+        if(mySym instanceof FnSym){
+            if (mySym.name() == "main") {
+                ProgramNode.codegen.generate("jal", "main");
+            } else {
+                String label = "_" + mySym.name();
+                ProgramNode.codegen.generate("jal", label);
+            }
         }
 
     }
@@ -1875,17 +1877,19 @@ class IdNode extends ExpNode {
      * either from the static data area or from the current Activation Record, and
      * to push that value onto the stack.
      */
-    public void codeGen(SymTable symTab) {
+    public void codeGen() {
         mySym.codeGen();
         // how do we know if a var is global?? id pointer
-        global = myId.lookupGlobal();
+        global = mySym.isGlobal();
         // lw $t0 _g // load the value of int global g into T0
-        if (global != null) {
-            ProgramNode.codegen.generate("lw", "$t0", "_"+mySym.name());
+        if (global == true) {
+            Codegen.generate("lw", "$t0", "_"+mySym.name());
         } else {
             // is the local value alread stored in 0 offset or do we do this here too??
+            int offset = mySym.getOffest();
+            Codegen.genPop("$t0", offset);
             //read from the sym table
-            ProgramNode.codegen.generate("lw", "t00(fp)");
+            Codegen.generate("lw", "$t0", "t0");
         }
         // lw t00(fp) // load the value of the int local stored at offset 0 into T0
 
@@ -1897,18 +1901,19 @@ class IdNode extends ExpNode {
      * Activation Record) onto the stack. Then we will generate code to store the
      * value of the right-hand-side expression into that address.
      */
-    public void genAddr(SymTable symTab) {
+    public void genAddr() {
         // how do we know if a var is global??
         global = myId.lookupGlobal();
         // lw $t0 _g // load the value of int global g into T0
         if (global != null) {
-            ProgramNode.codegen.genPop("$t0");
+            int offset = mySym.getOffest();
+            ProgramNode.codegen.genPop("$t0", offset);
             ProgramNode.codegen.generate("la", "$t0", "$t0");
         } else {
             // is the local value alread stored in 0 offset or do we do this here too??
             // how do we know what this offset is??
-            ProgramNode.codegen.generateIndexed();
-            ProgramNode.codegen.genPop("$t0");
+            int offset = mySym.getOffest();
+            ProgramNode.codegen.genPop("$t0", offset);
             ProgramNode.codegen.generate("la", "t0", "t0");
         }
     }
