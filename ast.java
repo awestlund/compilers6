@@ -659,7 +659,7 @@ class FnDeclNode extends DeclNode {
         String name = myId.name();
         if (name == "main") {
             Codegen.generate("", ".text");
-            Codegen.generate("", ".global", "main");
+            Codegen.generate("", ".global main");
             Codegen.genLabel("main");
         } else {
             Codegen.generate("", ".text");
