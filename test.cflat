@@ -1,4 +1,16 @@
 void main() {
+    int i;
+    int j;
     cout << "Hello world!";
     cout << "\n";
+    i = 5;
+    j = 10;
+
+    if (j > i){
+        j = 8;
+    }
+    else{
+        j = 3;
+    }
+
 }
